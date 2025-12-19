@@ -10,7 +10,18 @@ import MiVIPApi
 
 class ViewController: UIViewController {
     private var viewModel: MiVIPHubViewModel!
+    private weak var coordinator: MiVIPCoordinator?
     private var cancellables = Set<AnyCancellable>()
+    
+    init(viewModel: MiVIPHubViewModel, coordinator: MiVIPCoordinator) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
@@ -25,7 +36,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViewModel()
         setupUI()
         bindViewModel()
         hideKeyboardWhenTappedAround()
@@ -41,12 +51,6 @@ class ViewController: UIViewController {
     }
     
     private func setupViewModel() {
-        do {
-            let service = try MiVIPService()
-            viewModel = MiVIPHubViewModel(mivipService: service)
-        } catch {
-            handleError(error)
-        }
     }
     
     private func setupUI() {
@@ -145,19 +149,19 @@ class ViewController: UIViewController {
     
     @objc private func buttonAction(_ sender: UIButton) {
         impactFeedback.impactOccurred()
-        guard let scope = sender.accessibilityIdentifier else { return }
+        guard let scope = sender.accessibilityIdentifier, let viewModel = viewModel else { return }
         
         switch scope {
         case "QR":
-            viewModel.startQRCodeScan(from: self, callbackURL: documentCallbackTextField.text)
+            coordinator?.showQRScanner(from: self, viewModel: viewModel, callbackURL: documentCallbackTextField.text)
         case "request":
-            viewModel.openRequest(from: self, id: requestIdTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+            coordinator?.showRequest(from: self, viewModel: viewModel, id: requestIdTextField.text ?? "", callbackURL: documentCallbackTextField.text)
         case "code":
-            viewModel.openRequestByCode(from: self, code: requestCodeTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+            coordinator?.showRequestByCode(from: self, viewModel: viewModel, code: requestCodeTextField.text ?? "", callbackURL: documentCallbackTextField.text)
         case "history":
-            viewModel.showHistory(from: self)
+            coordinator?.showHistory(from: self, viewModel: viewModel)
         case "account":
-            viewModel.showAccount(from: self)
+            coordinator?.showAccount(from: self, viewModel: viewModel)
         default:
             break
         }
