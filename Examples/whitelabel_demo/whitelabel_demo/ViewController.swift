@@ -19,6 +19,10 @@ class ViewController: UIViewController {
     private let documentCallbackTextField = UITextField()
     private let requestCodeTextField = UITextField()
     
+    private let loadingView = LoadingView()
+    private let notificationFeedback = UINotificationFeedbackGenerator()
+    private let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()
@@ -46,7 +50,7 @@ class ViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = ColorPalette.background
         title = "MiVIP Demo"
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,8 +98,8 @@ class ViewController: UIViewController {
     
     private func configureTextFields() {
         [documentCallbackTextField, requestIdTextField, requestCodeTextField].forEach { tf in
-            tf.backgroundColor = .secondarySystemBackground
-            tf.textColor = .label
+            tf.backgroundColor = ColorPalette.secondaryBackground
+            tf.textColor = ColorPalette.text
             tf.textAlignment = .center
             tf.borderStyle = .roundedRect
             tf.font = UIFont.preferredFont(forTextStyle: .body)
@@ -118,17 +122,11 @@ class ViewController: UIViewController {
         requestCodeTextField.keyboardType = .numberPad
     }
     
-    private func createButton(title: String, identifier: String) -> UIButton {
-        let button = UIButton(type: .system)
+    private func createButton(title: String, identifier: String) -> PrimaryButton {
+        let button = PrimaryButton(type: .system)
         button.setTitle(title.uppercased(), for: .normal)
-        button.backgroundColor = .systemGray4
-        button.setTitleColor(.label, for: .normal)
-        button.layer.cornerRadius = 8
         button.accessibilityIdentifier = identifier
         button.accessibilityLabel = title
-        
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -146,6 +144,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func buttonAction(_ sender: UIButton) {
+        impactFeedback.impactOccurred()
         guard let scope = sender.accessibilityIdentifier else { return }
         
         switch scope {
@@ -176,14 +175,42 @@ class ViewController: UIViewController {
     private func handleStateChange(_ state: MiVIPRequestState) {
         switch state {
         case .idle:
-            break
+            loadingView.hide()
+            view.isUserInteractionEnabled = true
         case .loading:
-            break
+            loadingView.show(in: view)
+            view.isUserInteractionEnabled = false
+            notifyAccessibilityStatusChange("Loading verification request...")
         case .success(let result):
+            loadingView.hide()
+            view.isUserInteractionEnabled = true
+            notificationFeedback.notificationOccurred(.success)
+            notifyAccessibilityStatusChange("Verification completed successfully")
             debugPrint("MiVIP: Success with result \(result)")
         case .failure(let error):
+            loadingView.hide()
+            view.isUserInteractionEnabled = true
+            notificationFeedback.notificationOccurred(.error)
             handleError(error)
         }
+    }
+    
+    private func notifyAccessibilityStatusChange(_ status: String) {
+        UIAccessibility.post(notification: .announcement, argument: status)
+    }
+    
+    override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
+        get {
+            [
+                UIAccessibilityCustomAction(name: "Clear all fields") { [weak self] _ in
+                    self?.requestIdTextField.text = ""
+                    self?.documentCallbackTextField.text = ""
+                    self?.requestCodeTextField.text = ""
+                    return true
+                }
+            ]
+        }
+        set { }
     }
     
     private func handleError(_ error: Error) {
