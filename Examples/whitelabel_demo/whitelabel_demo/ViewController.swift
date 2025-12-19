@@ -4,171 +4,223 @@
 //
 
 import UIKit
+import Combine
 import MiVIPSdk
 import MiVIPApi
 
-private class MenuGesture: UITapGestureRecognizer {
-    var scope: String?
-}
-
 class ViewController: UIViewController {
+    private var viewModel: MiVIPHubViewModel!
+    private var cancellables = Set<AnyCancellable>()
     
-    private var requestIdTextField = UITextField()
-    private var documentCallbackTextField = UITextField()
-    private var requestCodeTextField = UITextField()
-
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
+    
+    private let requestIdTextField = UITextField()
+    private let documentCallbackTextField = UITextField()
+    private let requestCodeTextField = UITextField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViewModel()
+        setupUI()
+        bindViewModel()
         hideKeyboardWhenTappedAround()
-        
-        var y = 100.0
-        addCallbackTextField(y: y)
-        y+=70
-        addButton(scope: "QR", y: y) // SCAN REQUEST QR CODE
-        y+=65
-        addRequestTextField(y: y)
-        y+=50
-        addButton(scope: "request", y: y) // OPEN DIRECTLY REQUEST USING ID
-        y+=65
-        addRequestCodeTextField(y: y)
-        y+=50
-        addButton(scope: "code", y: y) // OPEN REQUEST ID USING 4 DIGIT CODE
-        y+=65
-        addButton(scope: "history", y: y) // SHOW REQUESTS HISTORY
-        y+=65
-        addButton(scope: "account", y: y) // SHOW STORED WALLET DATA (if reuseEnabled is set to true when opening request)
     }
     
-    @objc fileprivate func buttonAction(gesture : MenuGesture) {
-        guard let scope = gesture.scope else {return}
-        
-        print(MiVIPHub.version) // get SDK version
-        
-        do {
-            let mivip = try MiVIPHub()
-            mivip.setSoundsDisabled(true) // enable/disable short sound/vibration notification when something happens (e.g. document processing complete)
-            mivip.setReusableEnabled(false) // enable/disable wallet functionality
-            mivip.setLogDisabled(false) // if to send SDK failures to MiVIP server for logging. No PII is logged!
-            
-            // Set custom fonts:
-            // 1. Import your font into the project
-            // 2. Add new key "Fonts provided by application" on application's info.plist file and add your font names
-            // 3. Set MiVIP SDK font names. If given font not set MiVIP will use system font
-            mivip.setFontNameUltraLight(fontName: "WorkSans-ExtraLight")
-            mivip.setFontNameLight(fontName: "WorkSans-Light")
-            mivip.setFontNameThin(fontName: "WorkSans-Thin")
-            mivip.setFontNameBlack(fontName: "WorkSans-Black")
-            mivip.setFontNameMedium(fontName: "WorkSans-Medium")
-            mivip.setFontNameRegular(fontName: "WorkSans-Regular")
-            mivip.setFontNameSemiBold(fontName: "WorkSans-SemiBold")
-            mivip.setFontNameBold(fontName: "WorkSans-Bold")
-            mivip.setFontNamHeavy(fontName: "WorkSans-ExtraBold")
-            
-            switch scope {
-            case "QR":
-                mivip.qrCode(vc: self, requestStatusDelegate: self, documentCallbackUrl: documentCallbackTextField.text)
-            case "history":
-                mivip.history(vc: self)
-            case "account":
-                mivip.account(vc: self)
-            case "request":
-                guard let idRequest = requestIdTextField.text else {return} // "35cd1bf3-553b-485e-822f-bba55c9b03e3"
-                mivip.request(vc: self, miVipRequestId: idRequest, requestStatusDelegate: self, documentCallbackUrl: documentCallbackTextField.text)
-            case "code":
-                guard let code = requestCodeTextField.text else {return}
-                mivip.getRequestIdFromCode(code: code) { (idRequest, error) in
-                    DispatchQueue.main.async { [weak self] in
-                        guard let strongSelf = self else {return}
-                        if let idRequest = idRequest {
-                            mivip.request(vc: strongSelf, miVipRequestId: idRequest, requestStatusDelegate: strongSelf, documentCallbackUrl: strongSelf.documentCallbackTextField.text)
-                        }
-                        if let error = error {
-                            debugPrint("Error = \(error)" )
-                        }
-                    }
-                }
-            default:
-                print("Unknown scope")
+    deinit {
+        view.subviews.forEach { subview in
+            subview.gestureRecognizers?.forEach { gesture in
+                gesture.removeTarget(nil, action: nil)
             }
-            
-        } catch let error as MiVIPHub.LicenseError {
-            print(error.rawValue)
+        }
+        print("ViewController deallocated - no memory leak")
+    }
+    
+    private func setupViewModel() {
+        do {
+            let service = try MiVIPService()
+            viewModel = MiVIPHubViewModel(mivipService: service)
         } catch {
-            print(error)
+            handleError(error)
         }
     }
     
-}
-
-// detegate to get SDK notifications for request status and changes
-extension ViewController: MiVIPSdk.RequestStatusDelegate {
-    
-    func status(status: MiVIPApi.RequestStatus?, result: MiVIPApi.RequestResult?, scoreResponse: MiVIPApi.ScoreResponse?, request: MiVIPApi.MiVIPRequest?) {
-        // "RequestStatus = Optional(HooyuApi.RequestStatus.COMPLETED), RequestResult Optional(HooyuApi.RequestResult.PASS)"
-        debugPrint("MiVIP: RequestStatus = \(status), RequestResult \(result), ScoreResponse \(scoreResponse), MiVIPRequest \(request)")
-    }
-    
-    func error(err: String) {
-        debugPrint("MiVIP: \(err)")
-    }
-}
-
-// UI
-extension ViewController {
-    private func addButton(scope: String, y: CGFloat) {
-        let button = UIView(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 60))
-        button.backgroundColor = UIColor.lightGray
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        title = "MiVIP Demo"
         
-        let action = MenuGesture()
-        action.addTarget(self, action: #selector(buttonAction))
-        action.scope = scope
-        button.addGestureRecognizer(action)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
         
-        let textLabel = UILabel()
-        textLabel.text = scope
-        textLabel.textAlignment = .center
-        textLabel.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
-        textLabel.textColor = UIColor.darkText
-        textLabel.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width-40, height: 60)
-        button.addSubview(textLabel)
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(stackView)
         
-        self.view.addSubview(button)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+        ])
+        
+        configureTextFields()
+        
+        stackView.addArrangedSubview(documentCallbackTextField)
+        stackView.addArrangedSubview(createButton(title: "Scan QR Code", identifier: "QR"))
+        
+        stackView.addArrangedSubview(createSectionSpacer())
+        
+        stackView.addArrangedSubview(requestIdTextField)
+        stackView.addArrangedSubview(createButton(title: "Open Request by ID", identifier: "request"))
+        
+        stackView.addArrangedSubview(createSectionSpacer())
+        
+        stackView.addArrangedSubview(requestCodeTextField)
+        stackView.addArrangedSubview(createButton(title: "Open Request by Code", identifier: "code"))
+        
+        stackView.addArrangedSubview(createSectionSpacer())
+        
+        stackView.addArrangedSubview(createButton(title: "View Request History", identifier: "history"))
+        stackView.addArrangedSubview(createButton(title: "View Account and Wallet", identifier: "account"))
     }
     
-    private func addRequestTextField(y: CGFloat) {
-        requestIdTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        requestIdTextField.backgroundColor = UIColor.white
-        requestIdTextField.textColor = UIColor.black
-        requestIdTextField.textAlignment = .center
-        requestIdTextField.attributedPlaceholder = NSAttributedString(string: "request ID to open", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        requestIdTextField.tintColor = UIColor.gray
-        self.view.addSubview(requestIdTextField)
-    }
-    
-    private func addCallbackTextField(y: CGFloat) {
-        documentCallbackTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        documentCallbackTextField.backgroundColor = UIColor.white
-        documentCallbackTextField.textColor = UIColor.black
-        documentCallbackTextField.textAlignment = .center
-        documentCallbackTextField.attributedPlaceholder = NSAttributedString(string: "document callback URL", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        documentCallbackTextField.tintColor = UIColor.gray
-        self.view.addSubview(documentCallbackTextField)
-    }
-    
-    private func addRequestCodeTextField(y: CGFloat) {
-        requestCodeTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        requestCodeTextField.backgroundColor = UIColor.white
-        requestCodeTextField.textColor = UIColor.black
-        requestCodeTextField.textAlignment = .center
+    private func configureTextFields() {
+        [documentCallbackTextField, requestIdTextField, requestCodeTextField].forEach { tf in
+            tf.backgroundColor = .secondarySystemBackground
+            tf.textColor = .label
+            tf.textAlignment = .center
+            tf.borderStyle = .roundedRect
+            tf.font = UIFont.preferredFont(forTextStyle: .body)
+            tf.adjustsFontForContentSizeCategory = true
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
+        
+        documentCallbackTextField.placeholder = "document callback URL"
+        documentCallbackTextField.accessibilityLabel = "Document Callback URL"
+        documentCallbackTextField.accessibilityHint = "Enter a URL to receive document verification updates"
+        
+        requestIdTextField.placeholder = "request ID to open"
+        requestIdTextField.accessibilityLabel = "Request ID"
+        requestIdTextField.accessibilityHint = "Enter the verification request ID to open directly"
+        
+        requestCodeTextField.placeholder = "4 digit request code"
+        requestCodeTextField.accessibilityLabel = "Request Code"
+        requestCodeTextField.accessibilityHint = "Enter the 4-digit code to open a verification request"
         requestCodeTextField.keyboardType = .numberPad
-        requestCodeTextField.attributedPlaceholder = NSAttributedString(string: "4 digit request code", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        requestCodeTextField.tintColor = UIColor.gray
-        self.view.addSubview(requestCodeTextField)
+    }
+    
+    private func createButton(title: String, identifier: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title.uppercased(), for: .normal)
+        button.backgroundColor = .systemGray4
+        button.setTitleColor(.label, for: .normal)
+        button.layer.cornerRadius = 8
+        button.accessibilityIdentifier = identifier
+        button.accessibilityLabel = title
+        
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        return button
+    }
+    
+    private func createSectionSpacer() -> UIView {
+        let spacer = UIView()
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        spacer.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        return spacer
+    }
+    
+    @objc private func buttonAction(_ sender: UIButton) {
+        guard let scope = sender.accessibilityIdentifier else { return }
+        
+        switch scope {
+        case "QR":
+            viewModel.startQRCodeScan(from: self, callbackURL: documentCallbackTextField.text)
+        case "request":
+            viewModel.openRequest(from: self, id: requestIdTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+        case "code":
+            viewModel.openRequestByCode(from: self, code: requestCodeTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+        case "history":
+            viewModel.showHistory(from: self)
+        case "account":
+            viewModel.showAccount(from: self)
+        default:
+            break
+        }
+    }
+    
+    private func bindViewModel() {
+        viewModel.$requestState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                self?.handleStateChange(state)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func handleStateChange(_ state: MiVIPRequestState) {
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            break
+        case .success(let result):
+            debugPrint("MiVIP: Success with result \(result)")
+        case .failure(let error):
+            handleError(error)
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        let message: String
+        let title: String = "Error"
+        
+        if let mivipError = error as? MiVIPError {
+            message = mivipError.userMessage
+        } else if let licenseError = error as? MiVIPHub.LicenseError {
+            message = "License error: \(licenseError.rawValue). Please contact support."
+        } else {
+            message = error.localizedDescription
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+}
+
+private class WeakRequestStatusDelegate: MiVIPSdk.RequestStatusDelegate {
+    weak var target: RequestStatusDelegate?
+
+    init(target: RequestStatusDelegate) {
+        self.target = target
+    }
+
+    func status(status: MiVIPApi.RequestStatus?, result: MiVIPApi.RequestResult?, scoreResponse: MiVIPApi.ScoreResponse?, request: MiVIPApi.MiVIPRequest?) {
+        target?.status(status: status, result: result, scoreResponse: scoreResponse, request: request)
+    }
+
+    func error(err: String) {
+        target?.error(err: err)
     }
 }
 
 extension UIViewController {
-    
     func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -179,5 +231,3 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-
-

@@ -72,5 +72,13 @@
 	<string>#ffffff</string>
 	<key>menu_item_background</key>
 	<string>#ffffff</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required to capture identity documents and facial verification photos for identity verification.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access allows you to select existing photos of identity documents for verification.</string>
+	<key>NSNFCReaderUsageDescription</key>
+	<string>NFC is used to read and verify information from NFC-enabled identity documents like passports and ID cards.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is required for voice-based identity verification sessions.</string>
 </dict>
 </plist>
