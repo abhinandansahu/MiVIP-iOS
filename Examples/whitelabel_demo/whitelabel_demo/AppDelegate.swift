@@ -12,8 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // misnap license - see https://github.com/Mitek-Systems/MiSnap-iOS
-        MiSnapLicenseManager.shared.setLicenseKey("YOUR MISNAP LICENSE HERE")
+        let licenseKey = Configuration.miSnapLicenseKey ?? ""
+        MiSnapLicenseManager.shared.setLicenseKey(licenseKey)
         
         return true
     }
