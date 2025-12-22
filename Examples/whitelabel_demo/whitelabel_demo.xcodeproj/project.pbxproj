@@ -51,13 +51,20 @@
 		6BA7EF47298AC2070001800E /* device.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF29298AC2070001800E /* device.png */; };
 		6BA7EF48298AC2070001800E /* MiSnapVoiceCaptureLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF2B298AC2070001800E /* MiSnapVoiceCaptureLocalizable.strings */; };
 		6BA7EF49298AC2070001800E /* misnap_voice_capture_instruction_distance.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF2E298AC2070001800E /* misnap_voice_capture_instruction_distance.png */; };
-		6BD3A31F2E4F67CA00D71F83 /* MiVIPApi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */; };
-		6BD3A3202E4F67CA00D71F83 /* MiVIPApi.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BD3A3212E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */; };
-		6BD3A3222E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BD3A3232E4F67CC00D71F83 /* MiVIPSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */; };
-		6BD3A3242E4F67CC00D71F83 /* MiVIPSdk.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BCAA170F45E25861327E91DF /* Pods_whitelabel_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */; };
+		80B31EF42EF61EDD003F4541 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EF32EF61EDD003F4541 /* AppCoordinator.swift */; };
+		80B31EF62EF61EE4003F4541 /* MiVIPCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EF52EF61EE4003F4541 /* MiVIPCoordinator.swift */; };
+		80B31EF82EF61EEF003F4541 /* MiVIPHubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EF72EF61EEF003F4541 /* MiVIPHubViewModel.swift */; };
+		80B31EFA2EF61EF7003F4541 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EF92EF61EF7003F4541 /* PrimaryButton.swift */; };
+		80B31EFC2EF61F02003F4541 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EFB2EF61F02003F4541 /* LoadingView.swift */; };
+		80B31EFE2EF61F0B003F4541 /* PrivacyScreenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EFD2EF61F0B003F4541 /* PrivacyScreenService.swift */; };
+		80B31F002EF61F10003F4541 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31EFF2EF61F10003F4541 /* ColorPalette.swift */; };
+		80B31F022EF61F16003F4541 /* SecureConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F012EF61F16003F4541 /* SecureConfiguration.swift */; };
+		80B31F042EF61F1F003F4541 /* RequestStatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F032EF61F1F003F4541 /* RequestStatusDelegate.swift */; };
+		80B31F062EF61F25003F4541 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F052EF61F25003F4541 /* Coordinator.swift */; };
+		80B31F082EF61F30003F4541 /* MiVIPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F072EF61F30003F4541 /* MiVIPError.swift */; };
+		80B31F0A2EF61F3B003F4541 /* MiVIPRequestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F092EF61F3B003F4541 /* MiVIPRequestState.swift */; };
+		80B31F0C2EF61F46003F4541 /* BiometricAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F0B2EF61F46003F4541 /* BiometricAuthentication.swift */; };
+		80B31F0E2EF61F51003F4541 /* MiVIPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B31F0D2EF61F51003F4541 /* MiVIPService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,9 +74,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6BD3A3222E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Embed Frameworks */,
-				6BD3A3202E4F67CA00D71F83 /* MiVIPApi.xcframework in Embed Frameworks */,
-				6BD3A3242E4F67CC00D71F83 /* MiVIPSdk.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,12 +133,20 @@
 		6BA7EF2C298AC2070001800E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MiSnapVoiceCaptureLocalizable.strings; sourceTree = "<group>"; };
 		6BA7EF2D298AC2070001800E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MiSnapVoiceCaptureLocalizable.strings; sourceTree = "<group>"; };
 		6BA7EF2E298AC2070001800E /* misnap_voice_capture_instruction_distance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = misnap_voice_capture_instruction_distance.png; sourceTree = "<group>"; };
-		6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPApi.xcframework; sourceTree = "<group>"; };
-		6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPLiveness.xcframework; sourceTree = "<group>"; };
-		6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPSdk.xcframework; sourceTree = "<group>"; };
-		8B8AB7162E7097A2E8F49464 /* Pods-whitelabel_demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whitelabel_demo.release.xcconfig"; path = "Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo.release.xcconfig"; sourceTree = "<group>"; };
-		DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_whitelabel_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFDF546026AA4D1DE4F79DDF /* Pods-whitelabel_demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whitelabel_demo.debug.xcconfig"; path = "Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo.debug.xcconfig"; sourceTree = "<group>"; };
+		80B31EF32EF61EDD003F4541 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinators/AppCoordinator.swift; sourceTree = "<group>"; };
+		80B31EF52EF61EE4003F4541 /* MiVIPCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinators/MiVIPCoordinator.swift; sourceTree = "<group>"; };
+		80B31EF72EF61EEF003F4541 /* MiVIPHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels/MiVIPHubViewModel.swift; sourceTree = "<group>"; };
+		80B31EF92EF61EF7003F4541 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PrimaryButton.swift; sourceTree = "<group>"; };
+		80B31EFB2EF61F02003F4541 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/LoadingView.swift; sourceTree = "<group>"; };
+		80B31EFD2EF61F0B003F4541 /* PrivacyScreenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security/PrivacyScreenService.swift; sourceTree = "<group>"; };
+		80B31EFF2EF61F10003F4541 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming/ColorPalette.swift; sourceTree = "<group>"; };
+		80B31F012EF61F16003F4541 /* SecureConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecureConfiguration.swift; path = Configuration/SecureConfiguration.swift; sourceTree = "<group>"; };
+		80B31F032EF61F1F003F4541 /* RequestStatusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestStatusDelegate.swift; sourceTree = "<group>"; };
+		80B31F052EF61F25003F4541 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinators/Coordinator.swift; sourceTree = "<group>"; };
+		80B31F072EF61F30003F4541 /* MiVIPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors/MiVIPError.swift; sourceTree = "<group>"; };
+		80B31F092EF61F3B003F4541 /* MiVIPRequestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/MiVIPRequestState.swift; sourceTree = "<group>"; };
+		80B31F0B2EF61F46003F4541 /* BiometricAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security/BiometricAuthentication.swift; sourceTree = "<group>"; };
+		80B31F0D2EF61F51003F4541 /* MiVIPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/MiVIPService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,11 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BD3A3212E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Frameworks */,
 				6B3E9B6D27CCC6E8006983A3 /* CoreNFC.framework in Frameworks */,
-				BCAA170F45E25861327E91DF /* Pods_whitelabel_demo.framework in Frameworks */,
-				6BD3A31F2E4F67CA00D71F83 /* MiVIPApi.xcframework in Frameworks */,
-				6BD3A3232E4F67CC00D71F83 /* MiVIPSdk.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +193,20 @@
 				6B4B295C27C5320F000D371A /* LaunchScreen.storyboard */,
 				6B4B295F27C5320F000D371A /* Info.plist */,
 				6B9DAE4A27F34D6E00BD3D67 /* Localizable.strings */,
+				80B31EF32EF61EDD003F4541 /* AppCoordinator.swift */,
+				80B31EF52EF61EE4003F4541 /* MiVIPCoordinator.swift */,
+				80B31EF72EF61EEF003F4541 /* MiVIPHubViewModel.swift */,
+				80B31EF92EF61EF7003F4541 /* PrimaryButton.swift */,
+				80B31EFB2EF61F02003F4541 /* LoadingView.swift */,
+				80B31EFD2EF61F0B003F4541 /* PrivacyScreenService.swift */,
+				80B31EFF2EF61F10003F4541 /* ColorPalette.swift */,
+				80B31F012EF61F16003F4541 /* SecureConfiguration.swift */,
+				80B31F032EF61F1F003F4541 /* RequestStatusDelegate.swift */,
+				80B31F052EF61F25003F4541 /* Coordinator.swift */,
+				80B31F072EF61F30003F4541 /* MiVIPError.swift */,
+				80B31F092EF61F3B003F4541 /* MiVIPRequestState.swift */,
+				80B31F0B2EF61F46003F4541 /* BiometricAuthentication.swift */,
+				80B31F0D2EF61F51003F4541 /* MiVIPService.swift */,
 			);
 			path = whitelabel_demo;
 			sourceTree = "<group>";
@@ -192,11 +214,7 @@
 		6B4B296527C532C9000D371A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */,
-				6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */,
-				6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */,
 				6B3E9B6C27CCC6E8006983A3 /* CoreNFC.framework */,
-				DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -286,8 +304,6 @@
 		8AF6B79E59BEC778BC1197D1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EFDF546026AA4D1DE4F79DDF /* Pods-whitelabel_demo.debug.xcconfig */,
-				8B8AB7162E7097A2E8F49464 /* Pods-whitelabel_demo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -299,12 +315,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B4B296227C5320F000D371A /* Build configuration list for PBXNativeTarget "whitelabel_demo" */;
 			buildPhases = (
-				EDA44DAD8190FDFA401AE299 /* [CP] Check Pods Manifest.lock */,
 				6B4B294A27C5320C000D371A /* Sources */,
 				6B4B294B27C5320C000D371A /* Frameworks */,
 				6B4B294C27C5320C000D371A /* Resources */,
 				6BB8FE1427C7B4F400124BF8 /* Embed Frameworks */,
-				507B3D464B6DF2D3FF12C767 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -400,56 +414,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		507B3D464B6DF2D3FF12C767 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDA44DAD8190FDFA401AE299 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-whitelabel_demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		6B4B294A27C5320C000D371A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80B31EF62EF61EE4003F4541 /* MiVIPCoordinator.swift in Sources */,
+				80B31EF42EF61EDD003F4541 /* AppCoordinator.swift in Sources */,
 				6B4B295627C5320C000D371A /* ViewController.swift in Sources */,
 				6B4B295227C5320C000D371A /* AppDelegate.swift in Sources */,
+				80B31EFA2EF61EF7003F4541 /* PrimaryButton.swift in Sources */,
+				80B31F002EF61F10003F4541 /* ColorPalette.swift in Sources */,
+				80B31EFC2EF61F02003F4541 /* LoadingView.swift in Sources */,
+				80B31EF82EF61EEF003F4541 /* MiVIPHubViewModel.swift in Sources */,
+				80B31EFE2EF61F0B003F4541 /* PrivacyScreenService.swift in Sources */,
 				6B4B295427C5320C000D371A /* SceneDelegate.swift in Sources */,
+				80B31F042EF61F1F003F4541 /* RequestStatusDelegate.swift in Sources */,
+				80B31F022EF61F16003F4541 /* SecureConfiguration.swift in Sources */,
+				80B31F062EF61F25003F4541 /* Coordinator.swift in Sources */,
+				80B31F082EF61F30003F4541 /* MiVIPError.swift in Sources */,
+				80B31F0A2EF61F3B003F4541 /* MiVIPRequestState.swift in Sources */,
+				80B31F0C2EF61F46003F4541 /* BiometricAuthentication.swift in Sources */,
+				80B31F0E2EF61F51003F4541 /* MiVIPService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,7 +625,6 @@
 		};
 		6B4B296327C5320F000D371A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFDF546026AA4D1DE4F79DDF /* Pods-whitelabel_demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -648,21 +633,21 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = A752BYBDR6;
+				DEVELOPMENT_TEAM = 43FZQWCCUM;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Pods/OpenSSL-Universal/Frameworks/ios",
-					"$(PROJECT_DIR)/whitelabel_demo",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = whitelabel_demo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = whitelabel_demo;
+				INFOPLIST_KEY_CFBundleDisplayName = "MiVIP Demo App";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "This app uses NFC to scan document chip";
-				INFOPLIST_KEY_NSCameraUsageDescription = "scan qr code/document";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for asssted video call";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "use stored document images";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to capture identity documents and facial verification photos for identity verification.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location may be requested as an anti-fraud control, as part of the identity verification process by the third party who is making the identity request.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is required for voice-based identity verification sessions.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access allows you to select existing photos of identity documents for verification.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -674,7 +659,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooyu.whitelabeldemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miteksystems.MiSnapNFCSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -685,7 +670,6 @@
 		};
 		6B4B296427C5320F000D371A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B8AB7162E7097A2E8F49464 /* Pods-whitelabel_demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -694,21 +678,21 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = A752BYBDR6;
+				DEVELOPMENT_TEAM = 43FZQWCCUM;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Pods/OpenSSL-Universal/Frameworks/ios",
-					"$(PROJECT_DIR)/whitelabel_demo",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = whitelabel_demo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = whitelabel_demo;
+				INFOPLIST_KEY_CFBundleDisplayName = "MiVIP Demo App";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "This app uses NFC to scan document chip";
-				INFOPLIST_KEY_NSCameraUsageDescription = "scan qr code/document";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Need microphone access for asssted video call";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "use stored document images";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to capture identity documents and facial verification photos for identity verification.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location may be requested as an anti-fraud control, as part of the identity verification process by the third party who is making the identity request.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone access is required for voice-based identity verification sessions.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo library access allows you to select existing photos of identity documents for verification.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -720,7 +704,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooyu.whitelabeldemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.miteksystems.MiSnapNFCSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

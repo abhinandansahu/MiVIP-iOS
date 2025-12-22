@@ -8,12 +8,17 @@ class MiVIPHubViewModel: NSObject {
     @Published var requestState: MiVIPRequestState = .idle
     
     private let mivipService: MiVIPServiceProtocol
-    
+    private var activeTask: Task<Void, Never>?
+
     init(mivipService: MiVIPServiceProtocol) {
         self.mivipService = mivipService
         super.init()
     }
     
+    deinit {
+        activeTask?.cancel()
+    }
+
     func startQRCodeScan(from vc: UIViewController, callbackURL: String?) {
         requestState = .loading
         mivipService.startQRCodeScan(vc: vc, delegate: self, callbackURL: callbackURL)
@@ -34,16 +39,20 @@ class MiVIPHubViewModel: NSObject {
             return
         }
         requestState = .loading
-        mivipService.openRequestByCode(vc: vc, code: code, delegate: self, callbackURL: callbackURL) { [weak self] idRequest, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                if let error = error {
-                    self.requestState = .failure(.sdk(error.localizedDescription))
-                    return
-                }
-                if let idRequest = idRequest {
+        
+        activeTask?.cancel()
+        activeTask = Task { @MainActor in
+            do {
+                if let idRequest = try await mivipService.getRequestId(from: code) {
+                    guard !Task.isCancelled else { return }
                     self.mivipService.openRequest(vc: vc, id: idRequest, delegate: self, callbackURL: callbackURL)
+                } else {
+                    guard !Task.isCancelled else { return }
+                    self.requestState = .failure(.sdk("Failed to get request ID from code"))
                 }
+            } catch {
+                guard !Task.isCancelled else { return }
+                self.requestState = .failure(.sdk(error.localizedDescription))
             }
         }
     }

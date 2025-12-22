@@ -42,6 +42,7 @@ class ViewController: UIViewController {
     }
     
     deinit {
+        view.gestureRecognizers?.forEach { $0.removeTarget(nil, action: nil) }
         view.subviews.forEach { subview in
             subview.gestureRecognizers?.forEach { gesture in
                 gesture.removeTarget(nil, action: nil)

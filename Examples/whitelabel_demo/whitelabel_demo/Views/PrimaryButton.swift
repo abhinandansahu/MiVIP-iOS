@@ -12,19 +12,38 @@ class PrimaryButton: UIButton {
     }
 
     private func setupUI() {
-        layer.cornerRadius = 12
-        titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.filled()
+            config.cornerStyle = .large
+            config.buttonSize = .large
+            configuration = config
+            
+            configurationUpdateHandler = { button in
+                var config = button.configuration
+                config?.baseBackgroundColor = button.isEnabled ? ColorPalette.primaryButton : ColorPalette.disabledButton
+                config?.baseForegroundColor = button.isEnabled ? .white : .systemGray
+                button.configuration = config
+            }
+        } else {
+            layer.cornerRadius = 12
+            titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+            updateColors()
+        }
+        
         titleLabel?.adjustsFontForContentSizeCategory = true
+        accessibilityTraits = .button
         
         addTarget(self, action: #selector(touchDown), for: .touchDown)
         addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
-
-        updateColors()
     }
 
     private func updateColors() {
-        backgroundColor = isEnabled ? ColorPalette.primaryButton : ColorPalette.disabledButton
-        setTitleColor(isEnabled ? .white : .systemGray, for: .normal)
+        if #available(iOS 15.0, *) {
+            setNeedsUpdateConfiguration()
+        } else {
+            backgroundColor = isEnabled ? ColorPalette.primaryButton : ColorPalette.disabledButton
+            setTitleColor(isEnabled ? .white : .systemGray, for: .normal)
+        }
     }
 
     @objc private func touchDown() {

@@ -7,6 +7,7 @@ protocol MiVIPServiceProtocol {
     func startQRCodeScan(vc: UIViewController, delegate: RequestStatusDelegate, callbackURL: String?)
     func openRequest(vc: UIViewController, id: String, delegate: RequestStatusDelegate, callbackURL: String?)
     func openRequestByCode(vc: UIViewController, code: String, delegate: RequestStatusDelegate, callbackURL: String?, completion: @escaping (String?, Error?) -> Void)
+    func getRequestId(from code: String) async throws -> String?
     func showHistory(vc: UIViewController)
     func showAccount(vc: UIViewController)
 }
@@ -48,6 +49,18 @@ class MiVIPService: MiVIPServiceProtocol {
 
     func openRequestByCode(vc: UIViewController, code: String, delegate: RequestStatusDelegate, callbackURL: String?, completion: @escaping (String?, Error?) -> Void) {
         mivipHub.getRequestIdFromCode(code: code, completion: completion)
+    }
+
+    func getRequestId(from code: String) async throws -> String? {
+        try await withCheckedThrowingContinuation { continuation in
+            mivipHub.getRequestIdFromCode(code: code) { id, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: id)
+                }
+            }
+        }
     }
 
     func showHistory(vc: UIViewController) {

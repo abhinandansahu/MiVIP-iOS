@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>HOOYU_API_URL</key>
+	<string>https://eu-west.id.miteksystems.com</string>
+	<key>MiSnapLicenseKey</key>
+	<string>eyJzaWduYXR1cmUiOiJWcmdaRFNwYVRrUlhmSHhLL2xJcmhHQ1ZlWmJyeEVGYTZ5M0YvVHExQ2hTMG5WS2JTWHkwc1YwWjcrTTNHTE84R3hzRkVoTzRRRDA4a1kwSlM1czI3UEc3VjVPbjlFK0JjUDJrYnFqMENJN3BRRmZ0aFpTMTJyUi9lTDhwUXRhaVNUd3YzaVdYN05vRGxkTmhnak1UN2JVWWtwdWZydFFZYXNXdWw0aDRqYVlrNUcybkxjeG5sTGVoSEFUeXFWRE0vZVdua08xcFU2bUJuYzNiS0cyVkdRSWVHaWVWVlBxMEdCWlhXS0E0dnYzR2h5QVdPTVRDRTNSeDNRUHo4dEdEcGxWdHo2WWxQOHR0VldhakJjbVB2UlVpc3FKNUNGWFNoVC9MVjNjRlRmYWYyMUJlRVcxZ2RRSVV6M3BQdVBWWGVIWUVsMHpoYXBPaDExOHVZbVVIV0E9PSIsInNpZ25lZCI6eyJleHBpcnkiOiIyMDI0LTA1LTA2IiwiZmVhdHVyZXMiOlsiYmFyY29kZSIsImRlcG9zaXQiLCJmYWNlIiwiZ2VuZXJpYyIsImlkIiwibmZjIiwib2RjIiwib2RlIiwidm9pY2UiLCJlbSJdLCJhcHBsaWNhdGlvbklkZW50aWZpZXIiOnsiYW5kcm9pZCI6WyJjb20ubWl0ZWtzeXN0ZW1zLk1pU25hcE5GQ1NhbXBsZUFwcCJdLCJpb3MiOlsiY29tLm1pdGVrc3lzdGVtcy5NaVNuYXBORkNTYW1wbGVBcHAiXX0sImdwbyI6IjE2ZCIsIm9yZ2FuaXphdGlvbiI6Ik1pdGVrIFN5c3RlbXMgSW5jLiIsInZlcnNpb24iOiIxLjAifX0=</string>
+	<key>NSNFCReaderUsageDescription</key>
+	<string>NFC is used to read and verify information from NFC-enabled identity documents like passports and ID cards.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>WorkSans-Black.otf</string>
@@ -14,10 +20,6 @@
 		<string>WorkSans-Thin.otf</string>
 		<string>WorkSans-SemiBold.otf</string>
 	</array>
-	<key>HOOYU_API_URL</key>
-	<string>https://mitek_instance.com</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location may be requested as an anti-fraud control, as part of the identity verification process by the third party who is making the identity request.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -72,13 +74,5 @@
 	<string>#ffffff</string>
 	<key>menu_item_background</key>
 	<string>#ffffff</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera access is required to capture identity documents and facial verification photos for identity verification.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo library access allows you to select existing photos of identity documents for verification.</string>
-	<key>NSNFCReaderUsageDescription</key>
-	<string>NFC is used to read and verify information from NFC-enabled identity documents like passports and ID cards.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone access is required for voice-based identity verification sessions.</string>
 </dict>
 </plist>
