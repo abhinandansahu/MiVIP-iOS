@@ -150,19 +150,19 @@ class ViewController: UIViewController {
     
     @objc private func buttonAction(_ sender: UIButton) {
         impactFeedback.impactOccurred()
-        guard let scope = sender.accessibilityIdentifier, let viewModel = viewModel else { return }
+        guard let scope = sender.accessibilityIdentifier else { return }
         
         switch scope {
         case "QR":
-            coordinator?.showQRScanner(from: self, viewModel: viewModel, callbackURL: documentCallbackTextField.text)
+            coordinator?.coordinate(to: .qrScanner(callbackURL: documentCallbackTextField.text))
         case "request":
-            coordinator?.showRequest(from: self, viewModel: viewModel, id: requestIdTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+            coordinator?.coordinate(to: .request(id: requestIdTextField.text ?? "", callbackURL: documentCallbackTextField.text))
         case "code":
-            coordinator?.showRequestByCode(from: self, viewModel: viewModel, code: requestCodeTextField.text ?? "", callbackURL: documentCallbackTextField.text)
+            coordinator?.coordinate(to: .requestByCode(code: requestCodeTextField.text ?? "", callbackURL: documentCallbackTextField.text))
         case "history":
-            coordinator?.showHistory(from: self, viewModel: viewModel)
+            coordinator?.coordinate(to: .history)
         case "account":
-            coordinator?.showAccount(from: self, viewModel: viewModel)
+            coordinator?.coordinate(to: .account)
         default:
             break
         }

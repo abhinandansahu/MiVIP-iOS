@@ -1,25 +1,16 @@
 import Foundation
 
 struct Configuration {
-    /// MiSnap License Key - Replace with your actual license key
+    /// MiSnap License Key
     static let miSnapLicenseKey: String? = {
-        // Try to load from Info.plist first
-        if let key = Bundle.main.object(forInfoDictionaryKey: "MISNAP_LICENSE_KEY") as? String ?? 
-            Bundle.main.object(forInfoDictionaryKey: "MiSnapLicenseKey") as? String,
-           !key.isEmpty {
-            return key
-        }
-        
-        // Fallback to hardcoded value (not recommended for production)
-        return "YOUR MISNAP LICENSE HERE"
+        return Bundle.main.object(forInfoDictionaryKey: "MISNAP_LICENSE_KEY") as? String
     }()
     
     /// MiVIP API Configuration
     static let apiBaseURL: String = {
-        if let url = Bundle.main.object(forInfoDictionaryKey: "MiVIPAPIBaseURL") as? String,
-           !url.isEmpty {
-            return url
+        guard let url = Bundle.main.object(forInfoDictionaryKey: "HOOYU_API_URL") as? String else {
+            return "https://api.mivip.com" // Fallback
         }
-        return "https://api.mivip.com" // Replace with actual base URL
+        return url
     }()
 }

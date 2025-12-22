@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let licenseKey = Configuration.miSnapLicenseKey ?? ""
         MiSnapLicenseManager.shared.setLicenseKey(licenseKey)
         
+        // Setup security services
+        PrivacyScreenService.shared.setup()
+        
         return true
     }
 

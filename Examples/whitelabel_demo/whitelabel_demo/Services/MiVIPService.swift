@@ -71,3 +71,31 @@ class MiVIPService: MiVIPServiceProtocol {
         mivipHub.account(vc: vc)
     }
 }
+
+// MARK: - SSL Pinning
+class SSLPinningDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
+              let serverTrust = challenge.protectionSpace.serverTrust else {
+            completionHandler(.performDefaultHandling, nil)
+            return
+        }
+        
+        // Basic pinning implementation - compare against known public keys or certificates
+        // This is a placeholder for the actual pinning logic which would involve:
+        // 1. Getting the certificate from the trust
+        // 2. Extracting the public key
+        // 3. Comparing against a hardcoded hash
+        
+        let policy = SecPolicyCreateSSL(true, challenge.protectionSpace.host as CFString)
+        SecTrustSetPolicies(serverTrust, policy)
+        
+        var error: CFError?
+        if SecTrustEvaluateWithError(serverTrust, &error) {
+            completionHandler(.useCredential, URLCredential(trust: serverTrust))
+        } else {
+            completionHandler(.cancelAuthenticationChallenge, nil)
+        }
+    }
+}

@@ -1,0 +1,8 @@
+// Config-Release.xcconfig
+// Configuration settings for release
+
+#include "Config.xcconfig"
+
+// Override values for release if needed
+// HOOYU_API_URL = prod.id.miteksystems.com
+// MISNAP_LICENSE_KEY = RELEASE_LICENSE_KEY
