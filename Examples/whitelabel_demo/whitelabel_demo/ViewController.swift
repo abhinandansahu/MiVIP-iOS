@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = ColorPalette.background
-        title = "MiVIP Demo"
+        title = NSLocalizedString("view.title", comment: "Main view title")
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -83,22 +83,22 @@ class ViewController: UIViewController {
         configureTextFields()
         
         stackView.addArrangedSubview(documentCallbackTextField)
-        stackView.addArrangedSubview(createButton(title: "Scan QR Code", identifier: "QR"))
+        stackView.addArrangedSubview(createButton(title: NSLocalizedString("button.scan_qr", comment: ""), identifier: "QR"))
         
         stackView.addArrangedSubview(createSectionSpacer())
         
         stackView.addArrangedSubview(requestIdTextField)
-        stackView.addArrangedSubview(createButton(title: "Open Request by ID", identifier: "request"))
+        stackView.addArrangedSubview(createButton(title: NSLocalizedString("button.open_request_id", comment: ""), identifier: "request"))
         
         stackView.addArrangedSubview(createSectionSpacer())
         
         stackView.addArrangedSubview(requestCodeTextField)
-        stackView.addArrangedSubview(createButton(title: "Open Request by Code", identifier: "code"))
+        stackView.addArrangedSubview(createButton(title: NSLocalizedString("button.open_request_code", comment: ""), identifier: "code"))
         
         stackView.addArrangedSubview(createSectionSpacer())
         
-        stackView.addArrangedSubview(createButton(title: "View Request History", identifier: "history"))
-        stackView.addArrangedSubview(createButton(title: "View Account and Wallet", identifier: "account"))
+        stackView.addArrangedSubview(createButton(title: NSLocalizedString("button.view_history", comment: ""), identifier: "history"))
+        stackView.addArrangedSubview(createButton(title: NSLocalizedString("button.view_account", comment: ""), identifier: "account"))
     }
     
     private func configureTextFields() {
@@ -113,16 +113,16 @@ class ViewController: UIViewController {
             tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         
-        documentCallbackTextField.placeholder = "document callback URL"
-        documentCallbackTextField.accessibilityLabel = "Document Callback URL"
+        documentCallbackTextField.placeholder = NSLocalizedString("textfield.callback.placeholder", comment: "")
+        documentCallbackTextField.accessibilityLabel = NSLocalizedString("accessibility.callback_url", comment: "")
         documentCallbackTextField.accessibilityHint = "Enter a URL to receive document verification updates"
         
-        requestIdTextField.placeholder = "request ID to open"
-        requestIdTextField.accessibilityLabel = "Request ID"
+        requestIdTextField.placeholder = NSLocalizedString("textfield.requestid.placeholder", comment: "")
+        requestIdTextField.accessibilityLabel = NSLocalizedString("accessibility.request_id", comment: "")
         requestIdTextField.accessibilityHint = "Enter the verification request ID to open directly"
         
-        requestCodeTextField.placeholder = "4 digit request code"
-        requestCodeTextField.accessibilityLabel = "Request Code"
+        requestCodeTextField.placeholder = NSLocalizedString("textfield.requestcode.placeholder", comment: "")
+        requestCodeTextField.accessibilityLabel = NSLocalizedString("accessibility.request_code", comment: "")
         requestCodeTextField.accessibilityHint = "Enter the 4-digit code to open a verification request"
         requestCodeTextField.keyboardType = .numberPad
     }
@@ -185,12 +185,12 @@ class ViewController: UIViewController {
         case .loading:
             loadingView.show(in: view)
             view.isUserInteractionEnabled = false
-            notifyAccessibilityStatusChange("Loading verification request...")
+            notifyAccessibilityStatusChange(NSLocalizedString("accessibility.status.loading", comment: ""))
         case .success(let result):
             loadingView.hide()
             view.isUserInteractionEnabled = true
             notificationFeedback.notificationOccurred(.success)
-            notifyAccessibilityStatusChange("Verification completed successfully")
+            notifyAccessibilityStatusChange(NSLocalizedString("accessibility.status.success", comment: ""))
             debugPrint("MiVIP: Success with result \(result)")
         case .failure(let error):
             loadingView.hide()
@@ -207,7 +207,7 @@ class ViewController: UIViewController {
     override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
         get {
             [
-                UIAccessibilityCustomAction(name: "Clear all fields") { [weak self] _ in
+                UIAccessibilityCustomAction(name: NSLocalizedString("accessibility.clear_fields", comment: "")) { [weak self] _ in
                     self?.requestIdTextField.text = ""
                     self?.documentCallbackTextField.text = ""
                     self?.requestCodeTextField.text = ""
@@ -220,7 +220,7 @@ class ViewController: UIViewController {
     
     private func handleError(_ error: Error) {
         let message: String
-        let title: String = "Error"
+        let title: String = NSLocalizedString("alert.error.title", comment: "")
         
         if let mivipError = error as? MiVIPError {
             message = mivipError.userMessage
@@ -231,7 +231,7 @@ class ViewController: UIViewController {
         }
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("alert.ok", comment: ""), style: .default))
         present(alert, animated: true)
     }
 }

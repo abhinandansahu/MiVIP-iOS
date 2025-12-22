@@ -1,18 +1,24 @@
 import UIKit
 
-class DependencyContainer {
+protocol DependencyProvider {
+    var mivipService: MiVIPServiceProtocol { get }
+}
+
+class DependencyContainer: DependencyProvider {
     static let shared = DependencyContainer()
     
     let mivipService: MiVIPServiceProtocol
-    let configuration: SecureConfiguration
     
-    private init() {
-        do {
-            self.mivipService = try MiVIPService()
-        } catch {
-            fatalError("Failed to initialize MiVIPService: \(error)")
+    init(mivipService: MiVIPServiceProtocol? = nil) {
+        if let service = mivipService {
+            self.mivipService = service
+        } else {
+            do {
+                self.mivipService = try MiVIPService()
+            } catch {
+                fatalError("Failed to initialize MiVIPService: \(error)")
+            }
         }
-        self.configuration = SecureConfiguration.shared
     }
     
     func makeAppCoordinator(window: UIWindow) -> AppCoordinator {

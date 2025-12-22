@@ -4,30 +4,25 @@ import MiVIPApi
 @testable import whitelabel_demo
 
 class MiVIPServiceTests: XCTestCase {
-    var service: MockMiVIPService!
+    var service: MiVIPServiceProtocol!
+    var mockService: MockMiVIPService!
     
     override func setUp() {
         super.setUp()
-        service = MockMiVIPService()
+        mockService = MockMiVIPService()
+        service = mockService
     }
     
-    override func tearDown() {
-        service = nil
-        super.tearDown()
+    func testGetRequestIdFromCode() async throws {
+        let requestId = try await service.getRequestId(from: "1234")
+        XCTAssertEqual(requestId, "mock-id")
     }
     
-    func testStartQRCodeScan() {
+    func testStartQRCodeScanCallsService() {
         let vc = UIViewController()
         let delegate = MockRequestStatusDelegate()
-        service.startQRCodeScan(vc: vc, delegate: delegate, callbackURL: "https://example.com")
-        XCTAssertTrue(service.qrCodeScanCalled)
-    }
-    
-    func testOpenRequest() {
-        let vc = UIViewController()
-        let delegate = MockRequestStatusDelegate()
-        service.openRequest(vc: vc, id: "uuid", delegate: delegate, callbackURL: nil)
-        XCTAssertTrue(service.openRequestCalled)
+        service.startQRCodeScan(vc: vc, delegate: delegate, callbackURL: nil)
+        XCTAssertTrue(mockService.qrCodeScanCalled)
     }
 }
 

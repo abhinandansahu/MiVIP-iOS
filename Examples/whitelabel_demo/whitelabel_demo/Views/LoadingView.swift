@@ -44,7 +44,7 @@ class LoadingView: UIView {
         ])
     }
 
-    func show(in view: UIView, message: String = "Loading...") {
+    func show(in view: UIView, message: String = NSLocalizedString("loading.message", comment: "Default loading message")) {
         self.frame = view.bounds
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         

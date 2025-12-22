@@ -589,6 +589,27 @@
 "hooyu.document.tax"="Tax Document";
 "hooyu.document.visa"="Travel Visa";
 
+// Whitelabel Demo App Strings
+"view.title" = "MiVIP Demo";
+"textfield.callback.placeholder" = "document callback URL";
+"textfield.requestid.placeholder" = "request ID to open";
+"textfield.requestcode.placeholder" = "4 digit request code";
+"button.scan_qr" = "Scan QR Code";
+"button.open_request_id" = "Open Request by ID";
+"button.open_request_code" = "Open Request by Code";
+"button.view_history" = "View Request History";
+"button.view_account" = "View Account and Wallet";
+"alert.error.title" = "Error";
+"alert.ok" = "OK";
+"accessibility.clear_fields" = "Clear all fields";
+"accessibility.callback_url" = "Document Callback URL";
+"accessibility.request_id" = "Request ID";
+"accessibility.request_code" = "Request Code";
+"accessibility.status.loading" = "Loading verification request...";
+"accessibility.status.success" = "Verification completed successfully";
+"loading.message" = "Loading...";
+"privacy.screen.message" = "Sensitive Content Hidden";
+
 // NOT TRANSLATED STRINGS (not used or expiremental features)
 // dsignature
 "hooyu.identify.main_menu.dsignature"="Digital Signing";

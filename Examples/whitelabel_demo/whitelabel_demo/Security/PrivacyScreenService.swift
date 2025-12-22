@@ -23,7 +23,7 @@ class PrivacyScreenService {
         
         // Add logo or text to the privacy screen
         let label = UILabel()
-        label.text = "Sensitive Content Hidden"
+        label.text = NSLocalizedString("privacy.screen.message", comment: "Message shown on privacy screen")
         label.textColor = .white
         label.font = .preferredFont(forTextStyle: .headline)
         label.textAlignment = .center
