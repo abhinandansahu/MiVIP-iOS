@@ -1,0 +1,16 @@
+// Config.xcconfig.example
+// Copy this file to Config.xcconfig and fill in your actual values
+// DO NOT commit Config.xcconfig to version control
+
+// MiSnap SDK License Key
+// Obtain from Mitek Systems - contact your account manager
+MISNAP_LICENSE_KEY = YOUR_LICENSE_KEY_HERE
+
+// MiVIP Backend URL
+// Use the appropriate URL for your environment
+HOOYU_API_URL = https:/$()/eu-west.id.miteksystems.com
+
+// Optional: Override for different environments
+// Development: https://dev.id.miteksystems.com
+// Staging: https://staging.id.miteksystems.com
+// Production: https://eu-west.id.miteksystems.com
