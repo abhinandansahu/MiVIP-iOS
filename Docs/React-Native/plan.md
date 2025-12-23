@@ -14,6 +14,7 @@ Build a React Native example app (`react_native_demo`) that replicates the funct
 - [x] Initialize React Native project in `Examples/react_native_demo`
 - [x] Install dependencies
 - [x] Configure `Info.plist` with required permissions
+- [x] **Match Bundle ID**: Ensure Bundle ID matches `com.mitek.abhi.mivipdemoapp` (required for existing license).
 
 ### Phase 2: Native Module Bridge (iOS)
 - [x] Create `MiVIPModule` (Swift & Obj-C Bridge)
@@ -23,10 +24,11 @@ Build a React Native example app (`react_native_demo`) that replicates the funct
 - [x] Link local XCFrameworks via local Pod `react-native-mivip`
 
 ### Phase 3: React Native UI Implementation
-- [x] Create `Theme.ts` with Mitek Red branding (#EE2C46)
-- [x] Build `HomeScreen` with 2-card layout
-- [x] Implement `OptionCard` and `PrimaryButton` components
-- [x] Add UUID validation logic in Javascript
+- [x] Create `Theme.ts` with Mitek Red branding (#EE2C46) and **Dark Mode support**.
+- [x] Build `HomeScreen` with 2-card layout.
+- [x] Implement `OptionCard` and `PrimaryButton` components.
+- [x] Add UUID validation logic in Javascript.
+- [x] Integrate official **Mitek Logo** asset.
 
 ### Phase 4: Integration & Verification
 - [x] Connect JS UI to Native Module methods
