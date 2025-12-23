@@ -1,0 +1,22 @@
+{
+  "name": "react-native-mivip",
+  "version": "1.0.0",
+  "description": "Bridge module for MiVIP SDK",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "ios",
+    "*.podspec"
+  ],
+  "keywords": [
+    "react-native",
+    "ios",
+    "mivip"
+  ],
+  "author": "Mitek",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}
