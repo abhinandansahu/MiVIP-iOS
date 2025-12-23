@@ -8,7 +8,7 @@ struct Configuration {
     
     static let apiBaseURL: String = {
         guard let url = Bundle.main.object(forInfoDictionaryKey: "HOOYU_API_URL") as? String else {
-            return "https://eu-west.id.miteksystems.com"
+            return "eu-west.id.miteksystems.com"
         }
         return url
     }()

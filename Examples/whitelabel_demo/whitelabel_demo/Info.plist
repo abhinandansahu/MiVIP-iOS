@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>HOOYU_API_URL</key>
-	<string>https://$(HOOYU_API_URL)</string>
+	<string>https://eu-west.id.miteksystems.com</string>
 	<key>MISNAP_LICENSE_KEY</key>
 	<string>$(MISNAP_LICENSE_KEY)</string>
 	<key>UIAppFonts</key>
