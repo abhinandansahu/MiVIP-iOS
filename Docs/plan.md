@@ -1510,3 +1510,187 @@ This plan transforms the whitelabel_demo from a basic SDK integration example in
 5. Establish regular progress reviews
 
 The result will be a high-quality reference implementation that demonstrates MiVIP SDK best practices and serves as a template for production applications.
+
+---
+
+## Phase 5: UI Simplification & User Guidance
+
+**Objective**: Simplify the user interface to focus on core verification flows with intuitive guidance
+
+**Priority**: HIGH - Improves user experience and reduces confusion
+
+**Status**: 🔄 IN PROGRESS
+
+### Goals
+
+1. Reduce UI complexity from 6 options to 2 primary actions
+2. Provide clear visual guidance for users to complete verification
+3. Add input validation with helpful error feedback
+4. Display system errors (e.g., license issues) prominently
+
+### Current State
+
+The app currently presents 6 options:
+- Callback URL text field
+- SCAN QR button
+- Request ID text field + OPEN BY ID button
+- 4 Digit Code text field + OPEN BY CODE button
+- HISTORY button
+- ACCOUNT button
+
+### Target State
+
+Simplified 2-option interface:
+- **Option 1**: Scan QR Code (primary action)
+- **Option 2**: Enter Request ID (secondary action)
+
+### Visual Design
+
+```
+┌─────────────────────────────────────────┐
+│              [Mitek Logo]               │
+│                                         │
+│        Identity Verification            │
+│                                         │
+│   Complete your verification journey    │
+│   using one of the options below.       │
+├─────────────────────────────────────────┤
+│                                         │
+│  ┌───────────────────────────────────┐  │
+│  │  📷  SCAN QR CODE                 │  │
+│  │                                   │  │
+│  │  Point your camera at the QR      │  │
+│  │  code provided in your email      │  │
+│  │  or verification portal.          │  │
+│  │                                   │  │
+│  │  [ Scan QR Code ]                 │  │
+│  └───────────────────────────────────┘  │
+│                                         │
+│            ─── OR ───                   │
+│                                         │
+│  ┌───────────────────────────────────┐  │
+│  │  🔑  ENTER REQUEST ID             │  │
+│  │                                   │  │
+│  │  If you have a Request ID,        │  │
+│  │  enter it below to continue.      │  │
+│  │                                   │  │
+│  │  [    Request ID text field    ]  │  │
+│  │                                   │  │
+│  │  [ Continue ]  (disabled until    │  │
+│  │                 valid UUID)       │  │
+│  └───────────────────────────────────┘  │
+│                                         │
+├─────────────────────────────────────────┤
+│  ⚠️ [Error Banner - shown if license   │
+│      or SDK initialization fails]      │
+└─────────────────────────────────────────┘
+```
+
+### Tasks
+
+#### 5.1 Redesign ViewController UI
+
+**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
+
+- [ ] Remove unused UI elements (Callback URL, 4-digit code, History, Account buttons)
+- [ ] Add logo header using `my_logo` asset
+- [ ] Add welcome title and subtitle text
+- [ ] Create card-based layout for the two options
+- [ ] Add SF Symbol icons (camera.viewfinder for QR, key.fill for Request ID)
+- [ ] Add contextual help text within each card
+- [ ] Add "OR" divider between options
+- [ ] Use existing `ColorPalette.primaryButton` for button styling
+
+#### 5.2 Implement Request ID Validation
+
+**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
+
+- [ ] Add UUID format validation for Request ID input
+- [ ] Disable "Continue" button until valid UUID is entered
+- [ ] Show inline validation feedback (e.g., red border for invalid, green for valid)
+- [ ] Clear validation state when text field is cleared
+
+**Validation Logic**:
+```swift
+func isValidRequestID(_ text: String) -> Bool {
+    return UUID(uuidString: text) != nil
+}
+```
+
+#### 5.3 Error Display System
+
+**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
+
+- [ ] Add error banner view at bottom of screen (hidden by default)
+- [ ] Display license errors from `MiVIPServiceFallback`
+- [ ] Display SDK initialization errors
+- [ ] Allow dismissal of error banner
+- [ ] Style error banner with warning colors
+
+#### 5.4 Clean Up Unused Code
+
+**Files**:
+- `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
+- `Examples/whitelabel_demo/whitelabel_demo/MiVIPRoute` (enum)
+
+- [ ] Remove `.code`, `.history`, `.account` cases from `MiVIPRoute` enum
+- [ ] Remove corresponding coordinator methods
+- [ ] Remove unused text fields and buttons
+- [ ] Keep service protocol methods (for future use) but simplify coordinator
+
+#### 5.5 Accessibility Updates
+
+- [ ] Add accessibility labels for new UI elements
+- [ ] Add accessibility hints for help text
+- [ ] Ensure Dynamic Type support for all new text
+- [ ] Test with VoiceOver
+
+### Implementation Guidelines
+
+**Branding**:
+- Use `my_logo` from Assets.xcassets for header logo
+- Use `ColorPalette.primaryButton` for primary buttons
+- Use `ColorPalette.background` and `ColorPalette.secondaryBackground` for cards
+
+**Typography**:
+- Title: `.title` text style (Dynamic Type)
+- Subtitle: `.subheadline` text style
+- Help text: `.footnote` text style
+- Button text: `.headline` text style
+
+**Spacing**:
+- Card padding: 20pt
+- Inter-card spacing: 24pt
+- Logo to title: 16pt
+- Title to subtitle: 8pt
+
+### Success Criteria
+
+- [ ] Only 2 options visible: Scan QR and Enter Request ID
+- [ ] Logo displays correctly at top
+- [ ] Welcome text guides user clearly
+- [ ] Each option has helpful context text
+- [ ] Request ID validates as UUID before enabling Continue
+- [ ] Invalid input shows clear visual feedback
+- [ ] License/SDK errors display in error banner
+- [ ] All elements support Dynamic Type
+- [ ] VoiceOver navigation works correctly
+- [ ] Build succeeds with no errors
+- [ ] App runs on device without crashes
+
+### Dependencies
+
+- Requires Phase 1-4 completion (MVVM architecture, accessibility foundation)
+- Uses existing `ColorPalette` and `PrimaryButton` components
+
+### Estimated Effort
+
+- UI Redesign: 2-3 hours
+- Validation: 1 hour
+- Error Display: 1 hour
+- Cleanup: 30 minutes
+- Testing: 1 hour
+
+**Total**: ~6 hours
+
+---
