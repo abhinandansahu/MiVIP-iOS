@@ -54,19 +54,27 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
     
     @objc(startRequest:resolver:rejecter:)
     func startRequest(id: String, resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+        // Normalize and validate UUID (fixes Issue #10)
+        let normalizedId = id.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        guard UUID(uuidString: normalizedId) != nil else {
+            rejecter("E_INVALID_UUID", "Invalid request ID format: \(id)", nil)
+            return
+        }
+
         // Check for duplicate request
         requestQueue.async(flags: .barrier) { [weak self] in
             guard let self = self else { return }
 
-            if self.pendingRequests[id] != nil {
+            if self.pendingRequests[normalizedId] != nil {
                 DispatchQueue.main.async {
-                    rejecter("E_REQUEST_IN_PROGRESS", "Request \(id) is already in progress", nil)
+                    rejecter("E_REQUEST_IN_PROGRESS", "Request \(normalizedId) is already in progress", nil)
                 }
                 return
             }
 
             // Store request callbacks
-            self.pendingRequests[id] = PendingRequest(
+            self.pendingRequests[normalizedId] = PendingRequest(
                 resolve: resolver,
                 reject: rejecter,
                 timestamp: Date()
@@ -74,7 +82,7 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
 
             // Start timeout timer on main thread
             DispatchQueue.main.async {
-                self.startTimeoutTimer(for: id)
+                self.startTimeoutTimer(for: normalizedId)
             }
         }
 
@@ -83,17 +91,17 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
 
             guard let hub = self.mivipHub else {
                 let msg = self.initError ?? "SDK not initialized. Check license key in Info.plist."
-                self.rejectRequest(id: id, code: "E_INIT_FAILED", message: msg)
+                self.rejectRequest(id: normalizedId, code: "E_INIT_FAILED", message: msg)
                 return
             }
 
             guard let topVC = self.getTopViewController() else {
-                self.rejectRequest(id: id, code: "E_VC_FAILED", message: "Could not find valid screen to present SDK")
+                self.rejectRequest(id: normalizedId, code: "E_VC_FAILED", message: "Could not find valid screen to present SDK")
                 return
             }
 
-            print("MiVIPModule: Starting request \(id) on \(type(of: topVC))")
-            hub.request(vc: topVC, miVipRequestId: id, requestStatusDelegate: self)
+            print("MiVIPModule: Starting request \(normalizedId) on \(type(of: topVC))")
+            hub.request(vc: topVC, miVipRequestId: normalizedId, requestStatusDelegate: self)
         }
     }
     
@@ -136,13 +144,34 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
         return topController
     }
     
+    // MARK: - UUID Validation (fixes Issue #10)
+
     private func extractUUID(from string: String) -> String? {
-        let pattern = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
-        let regex = try? NSRegularExpression(pattern: pattern)
-        let range = NSRange(string.startIndex..., in: string)
-        if let match = regex?.firstMatch(in: string, range: range), let r = Range(match.range, in: string) {
-            return String(string[r])
+        // Normalize input
+        let normalized = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Try direct UUID parsing first
+        if let uuid = UUID(uuidString: normalized) {
+            return uuid.uuidString.lowercased()
         }
+
+        // Extract from URL or longer string using regex
+        let pattern = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+            return nil
+        }
+
+        let range = NSRange(normalized.startIndex..., in: normalized)
+        if let match = regex.firstMatch(in: normalized, range: range),
+           let r = Range(match.range, in: normalized) {
+            let candidate = String(normalized[r])
+
+            // CRITICAL: Validate extracted string is actually a valid UUID
+            if UUID(uuidString: candidate) != nil {
+                return candidate.lowercased()
+            }
+        }
+
         return nil
     }
     
