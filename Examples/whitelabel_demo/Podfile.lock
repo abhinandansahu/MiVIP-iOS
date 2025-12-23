@@ -1,0 +1,62 @@
+PODS:
+  - MiSnap (5.9.1):
+    - MiSnapCore (= 5.9.1)
+  - MiSnapAssetManager (5.9.1)
+  - MiSnapCore (5.9.1)
+  - MiSnapFacialCapture (5.9.1):
+    - MiSnapCore (= 5.9.1)
+  - MiSnapFacialCaptureUX (5.9.1):
+    - MiSnapAssetManager (= 5.9.1)
+  - MiSnapNFC (5.9.1):
+    - MiSnapCore (= 5.9.1)
+  - MiSnapNFCUX (5.9.1):
+    - MiSnapAssetManager (= 5.9.1)
+  - MiSnapUX (5.9.1):
+    - MiSnapAssetManager (= 5.9.1)
+  - MiSnapVoiceCapture (5.9.1):
+    - MiSnapCore (= 5.9.1)
+  - MiSnapVoiceCaptureUX (5.9.1):
+    - MiSnapAssetManager (= 5.9.1)
+  - MiVIP (3.6.15):
+    - MiSnap (~> 5.9.1)
+    - MiSnapFacialCapture (~> 5.9.1)
+    - MiSnapFacialCaptureUX (~> 5.9.1)
+    - MiSnapNFC (~> 5.9.1)
+    - MiSnapNFCUX (~> 5.9.1)
+    - MiSnapUX (~> 5.9.1)
+    - MiSnapVoiceCapture (~> 5.9.1)
+    - MiSnapVoiceCaptureUX (~> 5.9.1)
+
+DEPENDENCIES:
+  - MiVIP (= 3.6.15)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - MiSnap
+    - MiSnapAssetManager
+    - MiSnapCore
+    - MiSnapFacialCapture
+    - MiSnapFacialCaptureUX
+    - MiSnapNFC
+    - MiSnapNFCUX
+    - MiSnapUX
+    - MiSnapVoiceCapture
+    - MiSnapVoiceCaptureUX
+    - MiVIP
+
+SPEC CHECKSUMS:
+  MiSnap: 87f06a614afa569f5846ffe745c2a5ffa9331478
+  MiSnapAssetManager: 01af2e38742990a19c31be4cf338610a12541470
+  MiSnapCore: eeae07e9f589fcd637154ab0817af225df0f2af9
+  MiSnapFacialCapture: 900ba0dc24f6f88fd12bb386e8142b6b11a4e61e
+  MiSnapFacialCaptureUX: 5517bd612722524c9b86dd1adf1ec2e9212682d5
+  MiSnapNFC: 9a013a5eea3c7ad18d7ca3ef583a2868df17a10c
+  MiSnapNFCUX: e682f1b1a80fc8621ee8c14e9fa9d6f4d695cc48
+  MiSnapUX: 0bace9fa70ef47619825e052fcbe148a6b3a2406
+  MiSnapVoiceCapture: ba5efde8ac19c93e29222bd35b6d67fdbc310009
+  MiSnapVoiceCaptureUX: 6cc6532b7e0e35f68ddbc460c211fe800c718488
+  MiVIP: 1f782fdb737c53490fc5b04da24d8ca38a9f6cae
+
+PODFILE CHECKSUM: 5b8f2f9c59e154f855943173b4941836341bb617
+
+COCOAPODS: 1.16.2

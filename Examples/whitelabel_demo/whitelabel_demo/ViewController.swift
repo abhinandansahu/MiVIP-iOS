@@ -1,183 +1,327 @@
-//
-//  ViewController.swift
-//  whitelabel_demo
-//
-
 import UIKit
+import Combine
 import MiVIPSdk
 import MiVIPApi
 
-private class MenuGesture: UITapGestureRecognizer {
-    var scope: String?
+// MARK: - Models & Errors
+
+enum MiVIPRequestState {
+    case idle, loading, success(MiVIPApi.RequestResult), failure(MiVIPError)
 }
 
-class ViewController: UIViewController {
-    
-    private var requestIdTextField = UITextField()
-    private var documentCallbackTextField = UITextField()
-    private var requestCodeTextField = UITextField()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        
-        var y = 100.0
-        addCallbackTextField(y: y)
-        y+=70
-        addButton(scope: "QR", y: y) // SCAN REQUEST QR CODE
-        y+=65
-        addRequestTextField(y: y)
-        y+=50
-        addButton(scope: "request", y: y) // OPEN DIRECTLY REQUEST USING ID
-        y+=65
-        addRequestCodeTextField(y: y)
-        y+=50
-        addButton(scope: "code", y: y) // OPEN REQUEST ID USING 4 DIGIT CODE
-        y+=65
-        addButton(scope: "history", y: y) // SHOW REQUESTS HISTORY
-        y+=65
-        addButton(scope: "account", y: y) // SHOW STORED WALLET DATA (if reuseEnabled is set to true when opening request)
+enum MiVIPError: Error {
+    case sdk(String), validation(String)
+    var userMessage: String {
+        switch self {
+        case .sdk(let msg): return "SDK Error: \(msg)"
+        case .validation(let msg): return "Validation: \(msg)"
+        }
     }
+}
+
+typealias RequestStatusDelegate = MiVIPSdk.RequestStatusDelegate
+
+// MARK: - Protocols
+
+protocol MiVIPServiceProtocol {
+    func startQRCodeScan(vc: UIViewController, delegate: RequestStatusDelegate, callbackURL: String?)
+    func openRequest(vc: UIViewController, id: String, delegate: RequestStatusDelegate, callbackURL: String?)
+    func getRequestId(from code: String) async throws -> String?
+    func showHistory(vc: UIViewController)
+    func showAccount(vc: UIViewController)
+}
+
+// MARK: - Dependency Injection
+
+class DependencyContainer {
+    static let shared = DependencyContainer()
+    let mivipService: MiVIPServiceProtocol
     
-    @objc fileprivate func buttonAction(gesture : MenuGesture) {
-        guard let scope = gesture.scope else {return}
+    init() {
+        // Detailed License Debugging
+        print("--------------------------------------------------")
+        print("DEBUG: MiVIP License Diagnostic")
+        print("DEBUG: Active Bundle ID: \(Bundle.main.bundleIdentifier ?? "nil")")
         
-        print(MiVIPHub.version) // get SDK version
+        let license = Bundle.main.infoDictionary?["MISNAP_LICENSE_KEY"] as? String
+        print("DEBUG: License present in Info.plist: \(license != nil)")
         
-        do {
-            let mivip = try MiVIPHub()
-            mivip.setSoundsDisabled(true) // enable/disable short sound/vibration notification when something happens (e.g. document processing complete)
-            mivip.setReusableEnabled(false) // enable/disable wallet functionality
-            mivip.setLogDisabled(false) // if to send SDK failures to MiVIP server for logging. No PII is logged!
-            
-            // Set custom fonts:
-            // 1. Import your font into the project
-            // 2. Add new key "Fonts provided by application" on application's info.plist file and add your font names
-            // 3. Set MiVIP SDK font names. If given font not set MiVIP will use system font
-            mivip.setFontNameUltraLight(fontName: "WorkSans-ExtraLight")
-            mivip.setFontNameLight(fontName: "WorkSans-Light")
-            mivip.setFontNameThin(fontName: "WorkSans-Thin")
-            mivip.setFontNameBlack(fontName: "WorkSans-Black")
-            mivip.setFontNameMedium(fontName: "WorkSans-Medium")
-            mivip.setFontNameRegular(fontName: "WorkSans-Regular")
-            mivip.setFontNameSemiBold(fontName: "WorkSans-SemiBold")
-            mivip.setFontNameBold(fontName: "WorkSans-Bold")
-            mivip.setFontNamHeavy(fontName: "WorkSans-ExtraBold")
-            
-            switch scope {
-            case "QR":
-                mivip.qrCode(vc: self, requestStatusDelegate: self, documentCallbackUrl: documentCallbackTextField.text)
-            case "history":
-                mivip.history(vc: self)
-            case "account":
-                mivip.account(vc: self)
-            case "request":
-                guard let idRequest = requestIdTextField.text else {return} // "35cd1bf3-553b-485e-822f-bba55c9b03e3"
-                mivip.request(vc: self, miVipRequestId: idRequest, requestStatusDelegate: self, documentCallbackUrl: documentCallbackTextField.text)
-            case "code":
-                guard let code = requestCodeTextField.text else {return}
-                mivip.getRequestIdFromCode(code: code) { (idRequest, error) in
-                    DispatchQueue.main.async { [weak self] in
-                        guard let strongSelf = self else {return}
-                        if let idRequest = idRequest {
-                            mivip.request(vc: strongSelf, miVipRequestId: idRequest, requestStatusDelegate: strongSelf, documentCallbackUrl: strongSelf.documentCallbackTextField.text)
-                        }
-                        if let error = error {
-                            debugPrint("Error = \(error)" )
-                        }
-                    }
+        if let license = license {
+            print("DEBUG: License Length: \(license.count)")
+            if let data = Data(base64Encoded: license), let str = String(data: data, encoding: .utf8) {
+                if let range = str.range(of: "\"expiry\":\"[^\"]*\"", options: .regularExpression) {
+                    print("DEBUG: Internal \(str[range])")
                 }
-            default:
-                print("Unknown scope")
             }
-            
-        } catch let error as MiVIPHub.LicenseError {
-            print(error.rawValue)
+        }
+        print("--------------------------------------------------")
+
+        do {
+            self.mivipService = try MiVIPService()
+            print("DEBUG: MiVIPService successfully initialized real SDK")
         } catch {
-            print(error)
+            print("⚠️ MiVIPService init failed: \(error)")
+            self.mivipService = MiVIPServiceFallback(error: error)
         }
     }
     
+    func makeMiVIPHubViewModel() -> MiVIPHubViewModel { return MiVIPHubViewModel() }
 }
 
-// detegate to get SDK notifications for request status and changes
-extension ViewController: MiVIPSdk.RequestStatusDelegate {
+// MARK: - Navigation (MVVM-C)
+
+protocol Coordinator: AnyObject {
+    var childCoordinators: [Coordinator] { get set }
+    func start()
+}
+
+protocol Router: AnyObject {
+    var navigationController: UINavigationController { get }
+    func setRootViewController(_ viewController: UIViewController, animated: Bool)
+}
+
+class AppRouter: Router {
+    let navigationController = UINavigationController()
+    func setRootViewController(_ viewController: UIViewController, animated: Bool) {
+        navigationController.setViewControllers([viewController], animated: animated)
+    }
+}
+
+class AppCoordinator: Coordinator {
+    var childCoordinators: [Coordinator] = []
+    private let window: UIWindow
+    private let container: DependencyContainer
+    private let router = AppRouter()
+
+    init(window: UIWindow, container: DependencyContainer) {
+        self.window = window
+        self.container = container
+    }
+
+    func start() {
+        window.rootViewController = router.navigationController
+        window.makeKeyAndVisible()
+        let coord = MiVIPCoordinator(router: router, container: container)
+        childCoordinators.append(coord)
+        coord.start()
+    }
+}
+
+class MiVIPCoordinator: Coordinator {
+    var childCoordinators: [Coordinator] = []
+    private let router: Router
+    private let container: DependencyContainer
+    private var viewModel: MiVIPHubViewModel?
+
+    init(router: Router, container: DependencyContainer) {
+        self.router = router
+        self.container = container
+    }
+
+    func start() {
+        let vm = container.makeMiVIPHubViewModel()
+        self.viewModel = vm
+        let vc = ViewController(viewModel: vm, coordinator: self)
+        router.setRootViewController(vc, animated: true)
+    }
+
+    func coordinate(to route: MiVIPRoute) {
+        guard let vm = viewModel else { return }
+        switch route {
+        case .qr(let url):
+            vm.requestState = .loading
+            container.mivipService.startQRCodeScan(vc: router.navigationController, delegate: vm, callbackURL: url)
+        case .request(let id, let url):
+            vm.requestState = .loading
+            container.mivipService.openRequest(vc: router.navigationController, id: id, delegate: vm, callbackURL: url)
+        case .code(let code, let url):
+            vm.requestState = .loading
+            Task { @MainActor in
+                do {
+                    if let id = try await container.mivipService.getRequestId(from: code) {
+                        container.mivipService.openRequest(vc: router.navigationController, id: id, delegate: vm, callbackURL: url)
+                    }
+                } catch { vm.requestState = .failure(.sdk(error.localizedDescription)) }
+            }
+        case .history: container.mivipService.showHistory(vc: router.navigationController)
+        case .account: container.mivipService.showAccount(vc: router.navigationController)
+        }
+    }
+}
+
+enum MiVIPRoute {
+    case qr(String?), request(id: String, url: String?), code(code: String, url: String?), history, account
+}
+
+// MARK: - View Model
+
+class MiVIPHubViewModel: NSObject, RequestStatusDelegate {
+    @Published var requestState: MiVIPRequestState = .idle
     
     func status(status: MiVIPApi.RequestStatus?, result: MiVIPApi.RequestResult?, scoreResponse: MiVIPApi.ScoreResponse?, request: MiVIPApi.MiVIPRequest?) {
-        // "RequestStatus = Optional(HooyuApi.RequestStatus.COMPLETED), RequestResult Optional(HooyuApi.RequestResult.PASS)"
-        debugPrint("MiVIP: RequestStatus = \(status), RequestResult \(result), ScoreResponse \(scoreResponse), MiVIPRequest \(request)")
+        if let result = result { self.requestState = .success(result) }
+        else { self.requestState = .idle }
     }
     
-    func error(err: String) {
-        debugPrint("MiVIP: \(err)")
+    func error(err: String) { self.requestState = .failure(.sdk(err)) }
+}
+
+// MARK: - Services
+
+class MiVIPService: MiVIPServiceProtocol {
+    private let mivipHub: MiVIPHub
+    init() throws {
+        self.mivipHub = try MiVIPHub()
+        mivipHub.setSoundsDisabled(true)
+        mivipHub.setFontNameRegular(fontName: "WorkSans-Regular")
+    }
+    func startQRCodeScan(vc: UIViewController, delegate: RequestStatusDelegate, callbackURL: String?) {
+        mivipHub.qrCode(vc: vc, requestStatusDelegate: delegate, documentCallbackUrl: callbackURL)
+    }
+    func openRequest(vc: UIViewController, id: String, delegate: RequestStatusDelegate, callbackURL: String?) {
+        mivipHub.request(vc: vc, miVipRequestId: id, requestStatusDelegate: delegate, documentCallbackUrl: callbackURL)
+    }
+    func getRequestId(from code: String) async throws -> String? {
+        try await withCheckedThrowingContinuation { c in
+            mivipHub.getRequestIdFromCode(code: code) { id, err in
+                if let err = err { c.resume(throwing: MiVIPError.sdk(err)) }
+                else { c.resume(returning: id) }
+            }
+        }
+    }
+    func showHistory(vc: UIViewController) { mivipHub.history(vc: vc) }
+    func showAccount(vc: UIViewController) { mivipHub.account(vc: vc) }
+}
+
+class MiVIPServiceFallback: MiVIPServiceProtocol {
+    let error: Error
+    init(error: Error) { self.error = error }
+    func startQRCodeScan(vc: UIViewController, delegate: RequestStatusDelegate, callbackURL: String?) { show(vc) }
+    func openRequest(vc: UIViewController, id: String, delegate: RequestStatusDelegate, callbackURL: String?) { show(vc) }
+    func getRequestId(from code: String) async throws -> String? { throw error }
+    func showHistory(vc: UIViewController) { show(vc) }
+    func showAccount(vc: UIViewController) { show(vc) }
+    private func show(_ vc: UIViewController) {
+        let alert = UIAlertController(title: "SDK Error", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        vc.present(alert, animated: true)
     }
 }
 
-// UI
-extension ViewController {
-    private func addButton(scope: String, y: CGFloat) {
-        let button = UIView(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 60))
-        button.backgroundColor = UIColor.lightGray
-        
-        let action = MenuGesture()
-        action.addTarget(self, action: #selector(buttonAction))
-        action.scope = scope
-        button.addGestureRecognizer(action)
-        
-        let textLabel = UILabel()
-        textLabel.text = scope
-        textLabel.textAlignment = .center
-        textLabel.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
-        textLabel.textColor = UIColor.darkText
-        textLabel.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width-40, height: 60)
-        button.addSubview(textLabel)
-        
-        self.view.addSubview(button)
-    }
-    
-    private func addRequestTextField(y: CGFloat) {
-        requestIdTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        requestIdTextField.backgroundColor = UIColor.white
-        requestIdTextField.textColor = UIColor.black
-        requestIdTextField.textAlignment = .center
-        requestIdTextField.attributedPlaceholder = NSAttributedString(string: "request ID to open", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        requestIdTextField.tintColor = UIColor.gray
-        self.view.addSubview(requestIdTextField)
-    }
-    
-    private func addCallbackTextField(y: CGFloat) {
-        documentCallbackTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        documentCallbackTextField.backgroundColor = UIColor.white
-        documentCallbackTextField.textColor = UIColor.black
-        documentCallbackTextField.textAlignment = .center
-        documentCallbackTextField.attributedPlaceholder = NSAttributedString(string: "document callback URL", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        documentCallbackTextField.tintColor = UIColor.gray
-        self.view.addSubview(documentCallbackTextField)
-    }
-    
-    private func addRequestCodeTextField(y: CGFloat) {
-        requestCodeTextField = UITextField(frame: CGRect(x: 20, y: y, width: self.view.bounds.width-40, height: 50))
-        requestCodeTextField.backgroundColor = UIColor.white
-        requestCodeTextField.textColor = UIColor.black
-        requestCodeTextField.textAlignment = .center
-        requestCodeTextField.keyboardType = .numberPad
-        requestCodeTextField.attributedPlaceholder = NSAttributedString(string: "4 digit request code", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        requestCodeTextField.tintColor = UIColor.gray
-        self.view.addSubview(requestCodeTextField)
+// MARK: - Views
+
+class PrimaryButton: UIButton {
+    override init(frame: CGRect) { super.init(frame: frame); setup() }
+    required init?(coder: NSCoder) { super.init(coder: coder); setup() }
+    private func setup() {
+        if #available(iOS 15.0, *) {
+            var c = UIButton.Configuration.filled()
+            c.baseBackgroundColor = UIColor(red: 226/255, green: 0, blue: 26/255, alpha: 1)
+            c.cornerStyle = .large
+            configuration = c
+        } else {
+            backgroundColor = .red
+            layer.cornerRadius = 12
+        }
     }
 }
 
-extension UIViewController {
+// MARK: - View Controller
+
+class ViewController: UIViewController {
+    private let viewModel: MiVIPHubViewModel
+    private let coordinator: MiVIPCoordinator
+    private var cancellables = Set<AnyCancellable>()
     
-    func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+    private let stackView = UIStackView()
+    private let callbackTF = UITextField()
+    private let idTF = UITextField()
+    private let codeTF = UITextField()
+    private let loading = UIActivityIndicatorView(style: .large)
+
+    init(viewModel: MiVIPHubViewModel, coordinator: MiVIPCoordinator) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
     }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
+    required init?(coder: NSCoder) { fatalError() }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupBindings()
     }
+
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        title = "MiVIP Demo"
+        
+        stackView.axis = .vertical
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
+        configureTF(callbackTF, placeholder: "Callback URL")
+        configureTF(idTF, placeholder: "Request ID")
+        configureTF(codeTF, placeholder: "4 Digit Code")
+        
+        stackView.addArrangedSubview(callbackTF)
+        stackView.addArrangedSubview(createBtn("SCAN QR", #selector(qrAction)))
+        stackView.addArrangedSubview(idTF)
+        stackView.addArrangedSubview(createBtn("OPEN BY ID", #selector(idAction)))
+        stackView.addArrangedSubview(codeTF)
+        stackView.addArrangedSubview(createBtn("OPEN BY CODE", #selector(codeAction)))
+        stackView.addArrangedSubview(createBtn("HISTORY", #selector(historyAction)))
+        stackView.addArrangedSubview(createBtn("ACCOUNT", #selector(accountAction)))
+        
+        loading.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loading)
+        loading.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loading.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    private func configureTF(_ tf: UITextField, placeholder: String) {
+        tf.borderStyle = .roundedRect
+        tf.placeholder = placeholder
+        tf.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+
+    private func createBtn(_ title: String, _ action: Selector) -> UIButton {
+        let btn = PrimaryButton()
+        btn.setTitle(title, for: .normal)
+        btn.addTarget(self, action: action, for: .touchUpInside)
+        btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        return btn
+    }
+
+    private func setupBindings() {
+        viewModel.$requestState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                switch state {
+                case .loading: self?.loading.startAnimating()
+                case .success(let res): self?.loading.stopAnimating(); self?.alert("Success", "Result: \(res)")
+                case .failure(let err): self?.loading.stopAnimating(); self?.alert("Error", err.userMessage)
+                default: self?.loading.stopAnimating()
+                }
+            }.store(in: &cancellables)
+    }
+
+    private func alert(_ t: String, _ m: String) {
+        let a = UIAlertController(title: t, message: m, preferredStyle: .alert)
+        a.addAction(UIAlertAction(title: "OK", style: .default))
+        present(a, animated: true)
+    }
+
+    @objc private func qrAction() { coordinator.coordinate(to: .qr(callbackTF.text)) }
+    @objc private func idAction() { coordinator.coordinate(to: .request(id: idTF.text ?? "", url: callbackTF.text)) }
+    @objc private func codeAction() { coordinator.coordinate(to: .code(code: codeTF.text ?? "", url: callbackTF.text)) }
+    @objc private func historyAction() { coordinator.coordinate(to: .history) }
+    @objc private func accountAction() { coordinator.coordinate(to: .account) }
 }
-
-

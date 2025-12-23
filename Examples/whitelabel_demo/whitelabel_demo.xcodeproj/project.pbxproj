@@ -51,12 +51,6 @@
 		6BA7EF47298AC2070001800E /* device.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF29298AC2070001800E /* device.png */; };
 		6BA7EF48298AC2070001800E /* MiSnapVoiceCaptureLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF2B298AC2070001800E /* MiSnapVoiceCaptureLocalizable.strings */; };
 		6BA7EF49298AC2070001800E /* misnap_voice_capture_instruction_distance.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BA7EF2E298AC2070001800E /* misnap_voice_capture_instruction_distance.png */; };
-		6BD3A31F2E4F67CA00D71F83 /* MiVIPApi.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */; };
-		6BD3A3202E4F67CA00D71F83 /* MiVIPApi.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BD3A3212E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */; };
-		6BD3A3222E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BD3A3232E4F67CC00D71F83 /* MiVIPSdk.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */; };
-		6BD3A3242E4F67CC00D71F83 /* MiVIPSdk.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BCAA170F45E25861327E91DF /* Pods_whitelabel_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,9 +61,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6BD3A3222E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Embed Frameworks */,
-				6BD3A3202E4F67CA00D71F83 /* MiVIPApi.xcframework in Embed Frameworks */,
-				6BD3A3242E4F67CC00D71F83 /* MiVIPSdk.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,9 +120,6 @@
 		6BA7EF2C298AC2070001800E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MiSnapVoiceCaptureLocalizable.strings; sourceTree = "<group>"; };
 		6BA7EF2D298AC2070001800E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MiSnapVoiceCaptureLocalizable.strings; sourceTree = "<group>"; };
 		6BA7EF2E298AC2070001800E /* misnap_voice_capture_instruction_distance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = misnap_voice_capture_instruction_distance.png; sourceTree = "<group>"; };
-		6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPApi.xcframework; sourceTree = "<group>"; };
-		6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPLiveness.xcframework; sourceTree = "<group>"; };
-		6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MiVIPSdk.xcframework; sourceTree = "<group>"; };
 		8B8AB7162E7097A2E8F49464 /* Pods-whitelabel_demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whitelabel_demo.release.xcconfig"; path = "Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo.release.xcconfig"; sourceTree = "<group>"; };
 		DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_whitelabel_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFDF546026AA4D1DE4F79DDF /* Pods-whitelabel_demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-whitelabel_demo.debug.xcconfig"; path = "Target Support Files/Pods-whitelabel_demo/Pods-whitelabel_demo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -142,11 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BD3A3212E4F67CB00D71F83 /* MiVIPLiveness.xcframework in Frameworks */,
 				6B3E9B6D27CCC6E8006983A3 /* CoreNFC.framework in Frameworks */,
 				BCAA170F45E25861327E91DF /* Pods_whitelabel_demo.framework in Frameworks */,
-				6BD3A31F2E4F67CA00D71F83 /* MiVIPApi.xcframework in Frameworks */,
-				6BD3A3232E4F67CC00D71F83 /* MiVIPSdk.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,9 +177,6 @@
 		6B4B296527C532C9000D371A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6BD3A3192E4F67C300D71F83 /* MiVIPApi.xcframework */,
-				6BD3A31A2E4F67C300D71F83 /* MiVIPLiveness.xcframework */,
-				6BD3A31B2E4F67C300D71F83 /* MiVIPSdk.xcframework */,
 				6B3E9B6C27CCC6E8006983A3 /* CoreNFC.framework */,
 				DA68339B2D44DFBE5B454092 /* Pods_whitelabel_demo.framework */,
 			);
@@ -648,7 +630,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = A752BYBDR6;
+				DEVELOPMENT_TEAM = 43FZQWCCUM;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -674,7 +656,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooyu.whitelabeldemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitek.abhi.mivipdemoapp;
+				MISNAP_LICENSE_KEY = "eyJzaWduYXR1cmUiOiJaUjJtaDMzS1prK1hwdGRDZ0tnTlhhUDNOSzgyMCs2ZU5zeEJTVnhLT29RUitnazZzWUlZanlmSDlEUlVvQjJRTWhBQ0k2dW9WU1k4cVRtT29pR2xubk1zNWkzNi82L2Z1RXc0V1pTaW5EZ0syTnRnSjlPZmNiaUwyMDRWOVl5eW9KTVRYWnZlMlAxYzlXb3dIWjBwaFJGSndTU01Td3o4SUcwZnhvSUNnWk5qczFJOHRDV0VvQTM3V1JzQTIxNGE2bHRlQkZUdU5sNEt6MElnVkVQV1J5M3V3d1VXWWdPMkFMU2xZQXBqYmdwQ0h2Z0JBUjJ6anBmQ3JaQitMN2lHSXdYeVhZVis0Zjl4WkVHTlk5UFpEaVZNL2twN21xTGxZTkVmQy9ybjNGVGc3M09nWDk0WkZqektTWmtXWGIwQ1hVUlFlS1JHa05uQjJNb2s5dVF0b1E9PSIsInNpZ25lZCI6eyJleHBpcnkiOiIyMDMwLTExLTMwIiwiZmVhdHVyZXMiOlsiYmFyY29kZSIsImRlcG9zaXQiLCJmYWNlIiwiZ2VuZXJpYyIsImlkIiwibmZjIiwib2RjIiwib2RlIiwidm9pY2UiLCJlbSJdLCJhcHBsaWNhdGlvbklkZW50aWZpZXIiOnsiYW5kcm9pZCI6WyJjb20ubWl0ZWsuYWJoaS4qIl0sImlvcyI6WyJjb20ubWl0ZWsuYWJoaS4qIl0sIndlYiI6WyJsb2NhbGhvc3QiXX0sImdwbyI6IjE2ZCIsIm9yZ2FuaXphdGlvbiI6Ik1pdGVrIFN5c3RlbXMgSW5jLiIsInZlcnNpb24iOiIxLjAifSwiYmFyY29kZVdlYkxpY2Vuc2UiOiJoYkVnL0Y0WDlqWDRQOTAxNitvUzFBK0d0eS9yK0Y1RTV3WVRFQVdVaDRqclc3YkxkRlhTYjFqZ3RSOG92L1J1N1g4SzJ4dVhYbnBkUnZnbXZiWmZNUDZsa3BOZEJpelFxTFAyYkZFVlJsMjZ1U2QwckNBTWRyQlZmdlBBYXhhejNvQnNQcWtJWUFzZ2lIVEdzWUFSUjdlZ0o3Mm5mb1czU3NwTGZUOXZvQk83RUFPaEdWVi9ZNlNhTjdyZ2xaaWZiaHo0UnJUc1V4REk1U0c2R2trYS91U3RFVklaek94RWtGcE5GV1ZaQmE4WGQzMVZsZi9jeHR5V08zdExvWGt4TkhxYUI0ckxoZ09Xd0FiakZNRnhuOC9xaiszOXlobmJKc3hkVzh0U2o0b2IzRmhpSXdLVXJBbFRHWFVXRXNWbFovajFlbXF4dkEyV2EzTWN0TkhwdHpQeXJxNDRHbHltaVhybnh2ZkdFVHQwNnlPWSs1MG5ydjJMRDBtRUM1WmhldzVIamxBSFFzVWExTFZtaFdsS3lBQkRTMjVvbmlIRUwwY250S1R5ZEcrZXBoRGNGdGxlSlRrN0EweWlOY1lrM05JMkNRT0tnZDF1RjBvYnFnOTlLNnREMys1L2NlZDFaMGhjRGxnejJFUFc1Z0JlOGZxbllTTnZYQ1p0emhodiJ9";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -694,7 +677,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = A752BYBDR6;
+				DEVELOPMENT_TEAM = 43FZQWCCUM;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -720,7 +703,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooyu.whitelabeldemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mitek.abhi.mivipdemoapp;
+				MISNAP_LICENSE_KEY = "eyJzaWduYXR1cmUiOiJaUjJtaDMzS1prK1hwdGRDZ0tnTlhhUDNOSzgyMCs2ZU5zeEJTVnhLT29RUitnazZzWUlZanlmSDlEUlVvQjJRTWhBQ0k2dW9WU1k4cVRtT29pR2xubk1zNWkzNi82L2Z1RXc0V1pTaW5EZ0syTnRnSjlPZmNiaUwyMDRWOVl5eW9KTVRYWnZlMlAxYzlXb3dIWjBwaFJGSndTU01Td3o4SUcwZnhvSUNnWk5qczFJOHRDV0VvQTM3V1JzQTIxNGE2bHRlQkZUdU5sNEt6MElnVkVQV1J5M3V3d1VXWWdPMkFMU2xZQXBqYmdwQ0h2Z0JBUjJ6anBmQ3JaQitMN2lHSXdYeVhZVis0Zjl4WkVHTlk5UFpEaVZNL2twN21xTGxZTkVmQy9ybjNGVGc3M09nWDk0WkZqektTWmtXWGIwQ1hVUlFlS1JHa05uQjJNb2s5dVF0b1E9PSIsInNpZ25lZCI6eyJleHBpcnkiOiIyMDMwLTExLTMwIiwiZmVhdHVyZXMiOlsiYmFyY29kZSIsImRlcG9zaXQiLCJmYWNlIiwiZ2VuZXJpYyIsImlkIiwibmZjIiwib2RjIiwib2RlIiwidm9pY2UiLCJlbSJdLCJhcHBsaWNhdGlvbklkZW50aWZpZXIiOnsiYW5kcm9pZCI6WyJjb20ubWl0ZWsuYWJoaS4qIl0sImlvcyI6WyJjb20ubWl0ZWsuYWJoaS4qIl0sIndlYiI6WyJsb2NhbGhvc3QiXX0sImdwbyI6IjE2ZCIsIm9yZ2FuaXphdGlvbiI6Ik1pdGVrIFN5c3RlbXMgSW5jLiIsInZlcnNpb24iOiIxLjAifSwiYmFyY29kZVdlYkxpY2Vuc2UiOiJoYkVnL0Y0WDlqWDRQOTAxNitvUzFBK0d0eS9yK0Y1RTV3WVRFQVdVaDRqclc3YkxkRlhTYjFqZ3RSOG92L1J1N1g4SzJ4dVhYbnBkUnZnbXZiWmZNUDZsa3BOZEJpelFxTFAyYkZFVlJsMjZ1U2QwckNBTWRyQlZmdlBBYXhhejNvQnNQcWtJWUFzZ2lIVEdzWUFSUjdlZ0o3Mm5mb1czU3NwTGZUOXZvQk83RUFPaEdWVi9ZNlNhTjdyZ2xaaWZiaHo0UnJUc1V4REk1U0c2R2trYS91U3RFVklaek94RWtGcE5GV1ZaQmE4WGQzMVZsZi9jeHR5V08zdExvWGt4TkhxYUI0ckxoZ09Xd0FiakZNRnhuOC9xaiszOXlobmJKc3hkVzh0U2o0b2IzRmhpSXdLVXJBbFRHWFVXRXNWbFovajFlbXF4dkEyV2EzTWN0TkhwdHpQeXJxNDRHbHltaVhybnh2ZkdFVHQwNnlPWSs1MG5ydjJMRDBtRUM1WmhldzVIamxBSFFzVWExTFZtaFdsS3lBQkRTMjVvbmlIRUwwY250S1R5ZEcrZXBoRGNGdGxlSlRrN0EweWlOY1lrM05JMkNRT0tnZDF1RjBvYnFnOTlLNnREMys1L2NlZDFaMGhjRGxnejJFUFc1Z0JlOGZxbllTTnZYQ1p0emhodiJ9";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
