@@ -1510,3 +1510,89 @@ This plan transforms the whitelabel_demo from a basic SDK integration example in
 5. Establish regular progress reviews
 
 The result will be a high-quality reference implementation that demonstrates MiVIP SDK best practices and serves as a template for production applications.
+
+---
+
+## Phase 5: UI Simplification & User Guidance
+
+**Objective**: Simplify the user interface to focus on core verification flows with intuitive guidance
+
+**Priority**: HIGH - Improves user experience and reduces confusion
+
+**Status**: ✅ COMPLETED (December 2025)
+
+### Goals
+
+1. Reduce UI complexity from 6 options to 2 primary actions - ✅ Done
+2. Implement custom native QR scanner to bypass SDK parsing issues - ✅ Done
+3. Add UUID extraction via Regex for robust Request ID detection - ✅ Done
+4. Display system errors prominently via bottom banner - ✅ Done
+
+### Current State (After Phase 5 & 6)
+
+The app is now streamlined into two focused cards:
+1. **Scan QR Code**: Uses a native `AVFoundation` scanner to extract UUIDs from Mitek URLs.
+2. **Enter Request ID**: Allows manual entry of UUIDs with real-time validation.
+
+All redundant legacy features (.code, .history, .account) have been removed, and the code has been consolidated into `ViewController.swift` for maximum compatibility and ease of deployment.
+
+### Tasks
+
+#### 6.1 Code Cleanup & Consolidation
+
+- [x] Consolidate `ColorPalette` and `PrimaryButton` into `ViewController.swift`
+- [x] Remove redundant logging and diagnostic prints
+- [x] Simplify `MiVIPRoute` to only `.qr` and `.request(id:)`
+- [x] Refactor UI component code for better readability
+- [x] Verify final build success
+
+
+### Implementation Guidelines
+
+**Branding**:
+- Use `my_logo` from Assets.xcassets for header logo
+- Use `ColorPalette.primaryButton` for primary buttons
+- Use `ColorPalette.background` and `ColorPalette.secondaryBackground` for cards
+
+**Typography**:
+- Title: `.title` text style (Dynamic Type)
+- Subtitle: `.subheadline` text style
+- Help text: `.footnote` text style
+- Button text: `.headline` text style
+
+**Spacing**:
+- Card padding: 20pt
+- Inter-card spacing: 24pt
+- Logo to title: 16pt
+- Title to subtitle: 8pt
+
+### Success Criteria
+
+- [ ] Only 2 options visible: Scan QR and Enter Request ID
+- [ ] Logo displays correctly at top
+- [ ] Welcome text guides user clearly
+- [ ] Each option has helpful context text
+- [ ] Request ID validates as UUID before enabling Continue
+- [ ] Invalid input shows clear visual feedback
+- [ ] License/SDK errors display in error banner
+- [ ] All elements support Dynamic Type
+- [ ] VoiceOver navigation works correctly
+- [ ] Build succeeds with no errors
+- [ ] App runs on device without crashes
+
+### Dependencies
+
+- Requires Phase 1-4 completion (MVVM architecture, accessibility foundation)
+- Uses existing `ColorPalette` and `PrimaryButton` components
+
+### Estimated Effort
+
+- UI Redesign: 2-3 hours
+- Validation: 1 hour
+- Error Display: 1 hour
+- Cleanup: 30 minutes
+- Testing: 1 hour
+
+**Total**: ~6 hours
+
+---
