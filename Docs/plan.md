@@ -1519,131 +1519,33 @@ The result will be a high-quality reference implementation that demonstrates MiV
 
 **Priority**: HIGH - Improves user experience and reduces confusion
 
-**Status**: 🔄 IN PROGRESS
+**Status**: ✅ COMPLETED (December 2025)
 
 ### Goals
 
-1. Reduce UI complexity from 6 options to 2 primary actions
-2. Provide clear visual guidance for users to complete verification
-3. Add input validation with helpful error feedback
-4. Display system errors (e.g., license issues) prominently
+1. Reduce UI complexity from 6 options to 2 primary actions - ✅ Done
+2. Implement custom native QR scanner to bypass SDK parsing issues - ✅ Done
+3. Add UUID extraction via Regex for robust Request ID detection - ✅ Done
+4. Display system errors prominently via bottom banner - ✅ Done
 
-### Current State
+### Current State (After Phase 5 & 6)
 
-The app currently presents 6 options:
-- Callback URL text field
-- SCAN QR button
-- Request ID text field + OPEN BY ID button
-- 4 Digit Code text field + OPEN BY CODE button
-- HISTORY button
-- ACCOUNT button
+The app is now streamlined into two focused cards:
+1. **Scan QR Code**: Uses a native `AVFoundation` scanner to extract UUIDs from Mitek URLs.
+2. **Enter Request ID**: Allows manual entry of UUIDs with real-time validation.
 
-### Target State
-
-Simplified 2-option interface:
-- **Option 1**: Scan QR Code (primary action)
-- **Option 2**: Enter Request ID (secondary action)
-
-### Visual Design
-
-```
-┌─────────────────────────────────────────┐
-│              [Mitek Logo]               │
-│                                         │
-│        Identity Verification            │
-│                                         │
-│   Complete your verification journey    │
-│   using one of the options below.       │
-├─────────────────────────────────────────┤
-│                                         │
-│  ┌───────────────────────────────────┐  │
-│  │  📷  SCAN QR CODE                 │  │
-│  │                                   │  │
-│  │  Point your camera at the QR      │  │
-│  │  code provided in your email      │  │
-│  │  or verification portal.          │  │
-│  │                                   │  │
-│  │  [ Scan QR Code ]                 │  │
-│  └───────────────────────────────────┘  │
-│                                         │
-│            ─── OR ───                   │
-│                                         │
-│  ┌───────────────────────────────────┐  │
-│  │  🔑  ENTER REQUEST ID             │  │
-│  │                                   │  │
-│  │  If you have a Request ID,        │  │
-│  │  enter it below to continue.      │  │
-│  │                                   │  │
-│  │  [    Request ID text field    ]  │  │
-│  │                                   │  │
-│  │  [ Continue ]  (disabled until    │  │
-│  │                 valid UUID)       │  │
-│  └───────────────────────────────────┘  │
-│                                         │
-├─────────────────────────────────────────┤
-│  ⚠️ [Error Banner - shown if license   │
-│      or SDK initialization fails]      │
-└─────────────────────────────────────────┘
-```
+All redundant legacy features (.code, .history, .account) have been removed, and the code has been consolidated into `ViewController.swift` for maximum compatibility and ease of deployment.
 
 ### Tasks
 
-#### 5.1 Redesign ViewController UI
+#### 6.1 Code Cleanup & Consolidation
 
-**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
+- [x] Consolidate `ColorPalette` and `PrimaryButton` into `ViewController.swift`
+- [x] Remove redundant logging and diagnostic prints
+- [x] Simplify `MiVIPRoute` to only `.qr` and `.request(id:)`
+- [x] Refactor UI component code for better readability
+- [x] Verify final build success
 
-- [ ] Remove unused UI elements (Callback URL, 4-digit code, History, Account buttons)
-- [ ] Add logo header using `my_logo` asset
-- [ ] Add welcome title and subtitle text
-- [ ] Create card-based layout for the two options
-- [ ] Add SF Symbol icons (camera.viewfinder for QR, key.fill for Request ID)
-- [ ] Add contextual help text within each card
-- [ ] Add "OR" divider between options
-- [ ] Use existing `ColorPalette.primaryButton` for button styling
-
-#### 5.2 Implement Request ID Validation
-
-**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
-
-- [ ] Add UUID format validation for Request ID input
-- [ ] Disable "Continue" button until valid UUID is entered
-- [ ] Show inline validation feedback (e.g., red border for invalid, green for valid)
-- [ ] Clear validation state when text field is cleared
-
-**Validation Logic**:
-```swift
-func isValidRequestID(_ text: String) -> Bool {
-    return UUID(uuidString: text) != nil
-}
-```
-
-#### 5.3 Error Display System
-
-**File**: `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
-
-- [ ] Add error banner view at bottom of screen (hidden by default)
-- [ ] Display license errors from `MiVIPServiceFallback`
-- [ ] Display SDK initialization errors
-- [ ] Allow dismissal of error banner
-- [ ] Style error banner with warning colors
-
-#### 5.4 Clean Up Unused Code
-
-**Files**:
-- `Examples/whitelabel_demo/whitelabel_demo/ViewController.swift`
-- `Examples/whitelabel_demo/whitelabel_demo/MiVIPRoute` (enum)
-
-- [ ] Remove `.code`, `.history`, `.account` cases from `MiVIPRoute` enum
-- [ ] Remove corresponding coordinator methods
-- [ ] Remove unused text fields and buttons
-- [ ] Keep service protocol methods (for future use) but simplify coordinator
-
-#### 5.5 Accessibility Updates
-
-- [ ] Add accessibility labels for new UI elements
-- [ ] Add accessibility hints for help text
-- [ ] Ensure Dynamic Type support for all new text
-- [ ] Test with VoiceOver
 
 ### Implementation Guidelines
 
