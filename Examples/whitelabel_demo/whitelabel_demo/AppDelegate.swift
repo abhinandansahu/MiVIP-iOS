@@ -1,48 +1,33 @@
-//
-//  AppDelegate.swift
-//  whitelabel_demo
-//
-
 import UIKit
 import MiSnapCore
+
+struct Configuration {
+    static let miSnapLicenseKey: String? = {
+        return Bundle.main.object(forInfoDictionaryKey: "MISNAP_LICENSE_KEY") as? String
+    }()
+    
+    static let apiBaseURL: String = {
+        guard let url = Bundle.main.object(forInfoDictionaryKey: "HOOYU_API_URL") as? String else {
+            return "https://eu-west.id.miteksystems.com"
+        }
+        return url
+    }()
+}
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        let licenseKey = Configuration.miSnapLicenseKey ?? ""
-        MiSnapLicenseManager.shared.setLicenseKey(licenseKey)
-        
+        if let license = Configuration.miSnapLicenseKey {
+            MiSnapLicenseManager.shared.setLicenseKey(license)
+        }
         return true
     }
 
-    // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
-    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        backgroundTask = application.beginBackgroundTask { [weak self] in
-            self?.endBackgroundTask()
-        }
+  
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        endBackgroundTask()
-    }
-
-    private func endBackgroundTask() {
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = .invalid
-    }
-
-
 }
-
