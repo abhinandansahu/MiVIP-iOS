@@ -43,8 +43,6 @@
 	<string>Microphone access is required for voice identity verification.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo library access allows you to select existing photos of documents.</string>
-	<key>NSNFCReaderUsageDescription</key>
-	<string>NFC is used to read document chips.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>WorkSans-Black.otf</string>

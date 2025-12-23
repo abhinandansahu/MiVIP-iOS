@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "whitelabel_demo.app"
+               BuildableName = "react_native_demo.app"
                BlueprintName = "react_native_demo"
                ReferencedContainer = "container:react_native_demo.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "whitelabel_demo.app"
+            BuildableName = "react_native_demo.app"
             BlueprintName = "react_native_demo"
             ReferencedContainer = "container:react_native_demo.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "whitelabel_demo.app"
+            BuildableName = "react_native_demo.app"
             BlueprintName = "react_native_demo"
             ReferencedContainer = "container:react_native_demo.xcodeproj">
          </BuildableReference>

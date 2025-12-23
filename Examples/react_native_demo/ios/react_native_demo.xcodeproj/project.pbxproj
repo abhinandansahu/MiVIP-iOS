@@ -8,13 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* react_native_demoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* react_native_demoTests.m */; };
+		09A1817408CB92FE751751A0 /* WorkSans-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3CA81BD6ACC2C7A44A36933A /* WorkSans-Thin.otf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-react_native_demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-react_native_demo.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		236E826BAED37DC8BB04700D /* WorkSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 642863F26DABDA57AF668270 /* WorkSans-Regular.otf */; };
+		42F18739CB44529D11518F71 /* WorkSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1569A22A1F4405846D4CEFC1 /* WorkSans-Medium.otf */; };
+		4C456D4183B1E5F59AB23490 /* WorkSans-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90FFB5DB88A4D7CA16C72DF3 /* WorkSans-Black.otf */; };
+		50A8609071DC0AD4AEBB81C3 /* WorkSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D7338FAF0CA7C0207FD15AC9 /* WorkSans-Light.otf */; };
 		7699B88040F8A987B510C191 /* libPods-react_native_demo-react_native_demoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-react_native_demo-react_native_demoTests.a */; };
+		7B98C4273C08D48E67C1FDE7 /* WorkSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A210A4C9ADE21CC3B9E8CD39 /* WorkSans-Bold.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A733BB4FE111E2B978EAEB7B /* WorkSans-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B5BE914E15F7429325CE6C47 /* WorkSans-ExtraBold.otf */; };
+		AE15B1712F68B36AF9C88B8A /* WorkSans-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3D0B8F48D39D58B61669197 /* WorkSans-SemiBold.otf */; };
 		D6A30688CAD89BBF7B38FCF7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		FCB84FC827084524F0C4B48C /* WorkSans-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 79127F7FE9F92A2A004AC45A /* WorkSans-ExtraLight.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,14 +48,23 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = react_native_demo/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = react_native_demo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07FB91A68108700A75B9A /* react_native_demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = react_native_demo.entitlements; path = react_native_demo/react_native_demo.entitlements; sourceTree = "<group>"; };
+		1569A22A1F4405846D4CEFC1 /* WorkSans-Medium.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Medium.otf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-react_native_demo-react_native_demoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-react_native_demo-react_native_demoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-react_native_demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react_native_demo.debug.xcconfig"; path = "Target Support Files/Pods-react_native_demo/Pods-react_native_demo.debug.xcconfig"; sourceTree = "<group>"; };
+		3CA81BD6ACC2C7A44A36933A /* WorkSans-Thin.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Thin.otf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-react_native_demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react_native_demo.release.xcconfig"; path = "Target Support Files/Pods-react_native_demo/Pods-react_native_demo.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-react_native_demo-react_native_demoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react_native_demo-react_native_demoTests.debug.xcconfig"; path = "Target Support Files/Pods-react_native_demo-react_native_demoTests/Pods-react_native_demo-react_native_demoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-react_native_demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-react_native_demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		642863F26DABDA57AF668270 /* WorkSans-Regular.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Regular.otf"; sourceTree = "<group>"; };
+		79127F7FE9F92A2A004AC45A /* WorkSans-ExtraLight.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-ExtraLight.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = react_native_demo/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-react_native_demo-react_native_demoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react_native_demo-react_native_demoTests.release.xcconfig"; path = "Target Support Files/Pods-react_native_demo-react_native_demoTests/Pods-react_native_demo-react_native_demoTests.release.xcconfig"; sourceTree = "<group>"; };
+		90FFB5DB88A4D7CA16C72DF3 /* WorkSans-Black.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Black.otf"; sourceTree = "<group>"; };
+		A210A4C9ADE21CC3B9E8CD39 /* WorkSans-Bold.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Bold.otf"; sourceTree = "<group>"; };
+		B5BE914E15F7429325CE6C47 /* WorkSans-ExtraBold.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-ExtraBold.otf"; sourceTree = "<group>"; };
+		D7338FAF0CA7C0207FD15AC9 /* WorkSans-Light.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-Light.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F3D0B8F48D39D58B61669197 /* WorkSans-SemiBold.otf */ = {isa = PBXFileReference; includeInIndex = 1; path = "WorkSans-SemiBold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +115,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				13B07FB91A68108700A75B9A /* react_native_demo.entitlements */,
+				B336FA86415648BE39BF864A /* fonts */,
 			);
 			name = react_native_demo;
 			sourceTree = "<group>";
@@ -140,6 +159,22 @@
 				00E356EE1AD99517003FC87E /* react_native_demoTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B336FA86415648BE39BF864A /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				1569A22A1F4405846D4CEFC1 /* WorkSans-Medium.otf */,
+				79127F7FE9F92A2A004AC45A /* WorkSans-ExtraLight.otf */,
+				B5BE914E15F7429325CE6C47 /* WorkSans-ExtraBold.otf */,
+				D7338FAF0CA7C0207FD15AC9 /* WorkSans-Light.otf */,
+				642863F26DABDA57AF668270 /* WorkSans-Regular.otf */,
+				A210A4C9ADE21CC3B9E8CD39 /* WorkSans-Bold.otf */,
+				3CA81BD6ACC2C7A44A36933A /* WorkSans-Thin.otf */,
+				90FFB5DB88A4D7CA16C72DF3 /* WorkSans-Black.otf */,
+				F3D0B8F48D39D58B61669197 /* WorkSans-SemiBold.otf */,
+			);
+			name = fonts;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -249,6 +284,15 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D6A30688CAD89BBF7B38FCF7 /* PrivacyInfo.xcprivacy in Resources */,
+				42F18739CB44529D11518F71 /* WorkSans-Medium.otf in Resources */,
+				FCB84FC827084524F0C4B48C /* WorkSans-ExtraLight.otf in Resources */,
+				A733BB4FE111E2B978EAEB7B /* WorkSans-ExtraBold.otf in Resources */,
+				50A8609071DC0AD4AEBB81C3 /* WorkSans-Light.otf in Resources */,
+				236E826BAED37DC8BB04700D /* WorkSans-Regular.otf in Resources */,
+				7B98C4273C08D48E67C1FDE7 /* WorkSans-Bold.otf in Resources */,
+				09A1817408CB92FE751751A0 /* WorkSans-Thin.otf in Resources */,
+				4C456D4183B1E5F59AB23490 /* WorkSans-Black.otf in Resources */,
+				AE15B1712F68B36AF9C88B8A /* WorkSans-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
