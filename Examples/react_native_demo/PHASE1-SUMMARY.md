@@ -182,21 +182,20 @@ enum MiVIPErrorCode {
 
 ---
 
-### Commit 5: License Key Security (Pre-Phase 1)
-**SHA:** `3b31031`
+### Commit 5: License Key Configuration (Basic Solution)
+**SHA:** (Updated in rollback)
 **Issue Fixed:** #5 (Hardcoded License Key)
 
 **Changes:**
-- Moved license key to `Config.xcconfig` (gitignored)
-- Created `Config.xcconfig.example` as template
-- Updated `Info.plist` to use `$(VARIABLE)` references
-- Added comprehensive `SETUP.md` documentation
+- Rolled back from `.xcconfig` approach to a more basic solution.
+- Provided placeholders in `Info.plist` for `MISNAP_LICENSE_KEY`.
+- Added programmatic override option in `MiVIPModule.swift`.
+- Updated `SETUP.md` with clear instructions for both hardcoded and programmatic approaches.
 
 **Impact:**
-- ✅ License key not in version control
-- ✅ Team members use individual config files
-- ✅ CI/CD can inject secrets at build time
-- ✅ No exposure risk
+- ✅ Clear and simple configuration path for developers.
+- ✅ Reduced build complexity (no `.xcconfig` linking issues).
+- ✅ Flexibility to use secure programmatic methods if desired.
 
 ---
 
@@ -218,8 +217,7 @@ enum MiVIPErrorCode {
 ### Configuration
 | File | Status |
 |------|--------|
-| `Config.xcconfig.example` | New file |
-| `SETUP.md` | New file |
+| `SETUP.md` | Updated |
 | `.gitignore` (root) | Updated |
 | `.gitignore` (demo) | Updated |
 | `Info.plist` | Updated |

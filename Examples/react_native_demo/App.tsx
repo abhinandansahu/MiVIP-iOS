@@ -27,8 +27,9 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    setIsValid(uuidRegex.test(requestId));
+    const trimmedId = requestId.trim();
+    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    setIsValid(uuidRegex.test(trimmedId));
   }, [requestId]);
 
   const handleScanQR = async () => {
@@ -37,20 +38,30 @@ const App = () => {
       const result = await scanQRCode();
       Alert.alert('Success', `Verification Result: ${result}`);
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      // Clean up error message
+      const msg = error.message.replace('E_SDK_ERROR: ', '');
+      Alert.alert('Error', msg);
     } finally {
       setLoading(false);
     }
   };
 
   const handleManualEntry = async () => {
-    if (!isValid) return;
+    const trimmedId = requestId.trim();
+    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    
+    if (!uuidRegex.test(trimmedId)) {
+      Alert.alert('Validation Error', 'Please enter a valid Request ID (UUID format).');
+      return;
+    }
+
     try {
       setLoading(true);
-      const result = await startRequest(requestId);
+      const result = await startRequest(trimmedId);
       Alert.alert('Success', `Verification Result: ${result}`);
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      const msg = error.message.replace('E_SDK_ERROR: ', '');
+      Alert.alert('Error', msg);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 import Foundation
 import MiVIPSdk
 import MiVIPApi
+import MiSnapCore
 import React
 
 // MARK: - Supporting Types
@@ -31,6 +32,12 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
         super.init()
         let bundleId = Bundle.main.bundleIdentifier ?? "unknown"
         print("MiVIPModule: Current Bundle ID: \(bundleId)")
+        
+        // BASIC SOLUTION: 
+        // 1. You can hardcode the license key in Info.plist under MISNAP_LICENSE_KEY (easiest).
+        // 2. OR you can set it programmatically here:
+        // MiSnapLicenseManager.shared.setLicenseKey("YOUR_LICENSE_KEY_HERE")
+        
         do {
             self.mivipHub = try MiVIPHub()
             configureHub()
@@ -185,7 +192,7 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
 
         if let result = result {
             print("MiVIPModule: Success for request \(requestId) - \(result)")
-            resolveRequest(id: requestId, result: String(describing: result))
+            resolveRequest(id: requestId.uuidString, result: String(describing: result))
         }
     }
 

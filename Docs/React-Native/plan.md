@@ -14,7 +14,8 @@ Build a React Native example app (`react_native_demo`) that replicates the funct
 - [x] Initialize React Native project in `Examples/react_native_demo`
 - [x] Install dependencies
 - [x] Configure `Info.plist` with required permissions
-- [x] **Match Bundle ID**: Ensure Bundle ID matches `com.mitek.abhi.mivipdemoapp` (required for existing license).
+- [x] **Match Bundle ID**: Forced Bundle ID to `com.mitek.abhi.mivipdemoapp` (required to clear License Error 0).
+- [x] **Product Name**: Aligned Product Name to `whitelabel_demo`.
 
 ### Phase 2: Native Module Bridge (iOS)
 - [x] Create `MiVIPModule` (Swift & Obj-C Bridge)

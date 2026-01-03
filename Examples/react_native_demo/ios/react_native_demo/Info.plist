@@ -23,11 +23,11 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>HOOYU_API_URL</key>
-	<string>$(HOOYU_API_URL)</string>
+	<string>https://eu-west.id.miteksystems.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MISNAP_LICENSE_KEY</key>
-	<string>$(MISNAP_LICENSE_KEY)</string>
+	<string>REPLACE_WITH_YOUR_LICENSE_KEY</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

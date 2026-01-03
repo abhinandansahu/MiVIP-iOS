@@ -21,67 +21,29 @@ pod install
 cd ..
 ```
 
-### 2. Configure License Key (Critical - Security)
+### 2. Configure License Key (Basic Solution)
 
-**⚠️ IMPORTANT:** The license key must be configured in a gitignored file to prevent accidental exposure.
+The MiVIP SDK requires a valid license key to function. 
 
-```bash
-# Navigate to iOS project directory
-cd ios/react_native_demo
+**Option A: Hardcode in Info.plist (Easiest)**
 
-# Copy the example configuration
-cp Config.xcconfig.example Config.xcconfig
+1. Open `ios/react_native_demo/Info.plist`
+2. Locate the `MISNAP_LICENSE_KEY` key
+3. Replace `REPLACE_WITH_YOUR_LICENSE_KEY` with your actual base64 license key
 
-# Edit Config.xcconfig and add your license key
-# Replace YOUR_LICENSE_KEY_HERE with your actual MiSnap license key
+**Option B: Set Programmatically (Recommended for Security)**
+
+If you want to keep the license key out of version control:
+
+1. Create a `MiVIPLicense.swift` file (add to `.gitignore`)
+2. In `MiVIPModule.swift`, call the license manager before initializing `MiVIPHub`:
+
+```swift
+import MiSnapCore
+
+// Inside init()
+MiSnapLicenseManager.shared.setLicenseKey("YOUR_ACTUAL_KEY")
 ```
-
-**Config.xcconfig structure:**
-
-```xcconfig
-// MiSnap SDK License Key
-MISNAP_LICENSE_KEY = eyJ... (your actual license key)
-
-// MiVIP Backend URL
-HOOYU_API_URL = https:/$()/eu-west.id.miteksystems.com
-```
-
-**Environment-specific URLs:**
-- Development: `https://dev.id.miteksystems.com`
-- Staging: `https://staging.id.miteksystems.com`
-- Production (EU): `https://eu-west.id.miteksystems.com`
-- Production (US): `https://us.id.miteksystems.com`
-
-### 3. Link Configuration in Xcode
-
-The `Config.xcconfig` file must be linked to your Xcode project:
-
-1. Open `react_native_demo.xcworkspace` in Xcode
-2. Select the project in the navigator (blue icon)
-3. Select the "react_native_demo" project (not target)
-4. Go to the "Info" tab
-5. Under "Configurations", set:
-   - Debug: `Config`
-   - Release: `Config`
-
-If "Config" doesn't appear:
-1. Click the dropdown
-2. Select "Other..."
-3. Navigate to `ios/react_native_demo/Config.xcconfig`
-
-### 4. Verify Setup
-
-After configuration, the Info.plist should contain:
-
-```xml
-<key>MISNAP_LICENSE_KEY</key>
-<string>$(MISNAP_LICENSE_KEY)</string>
-
-<key>HOOYU_API_URL</key>
-<string>$(HOOYU_API_URL)</string>
-```
-
-These variables will be replaced at build time with values from `Config.xcconfig`.
 
 ## Running the App
 
@@ -93,9 +55,6 @@ npm start
 
 # In another terminal, run iOS app
 npm run ios
-
-# Or open in Xcode and run
-open ios/react_native_demo.xcworkspace
 ```
 
 ### Troubleshooting
@@ -104,10 +63,9 @@ open ios/react_native_demo.xcworkspace
 
 If you see "SDK not initialized" errors:
 
-1. Verify `Config.xcconfig` exists and contains your license key
-2. Clean build folder: Xcode → Product → Clean Build Folder (Cmd+Shift+K)
-3. Rebuild the project
-4. Check that the license key is valid and not expired
+1. Verify the license key in `Info.plist` is correct
+2. Ensure there are no leading/trailing whitespaces in the key
+3. Check that the license key is valid and not expired
 
 #### Camera Not Working
 
@@ -144,21 +102,17 @@ Ensure Info.plist contains:
 react_native_demo/
 ├── ios/
 │   └── react_native_demo/
-│       ├── Config.xcconfig.example    # Template (committed)
-│       ├── Config.xcconfig            # Your config (gitignored)
-│       └── Info.plist                 # Uses $(VARIABLES)
-├── .gitignore                         # Excludes Config.xcconfig
-└── SETUP.md                           # This file
+│       └── Info.plist                 # Contains license key placeholder
+├── SETUP.md                           # This file
 ```
 
 ## Team Onboarding
 
 When a new developer joins:
 
-1. Share the template: `Config.xcconfig.example`
-2. Provide them with a license key securely (1Password, encrypted email)
-3. Have them create their own `Config.xcconfig`
-4. Verify their setup runs successfully
+1. Provide them with a license key securely (1Password, encrypted email)
+2. Have them add it to their local `Info.plist` or a gitignored file
+3. Verify their setup runs successfully
 
 ## CI/CD Integration
 
