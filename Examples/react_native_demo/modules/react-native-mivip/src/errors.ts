@@ -42,7 +42,12 @@ const RECOVERABLE_ERRORS = new Set<MiVIPErrorCode>([
  * @returns Structured MiVIPError with user-friendly messages
  */
 export function createMiVIPError(nativeError: any): MiVIPError {
-  const code = (nativeError?.code as MiVIPErrorCode) || MiVIPErrorCode.UNKNOWN;
+  let code = nativeError?.code as MiVIPErrorCode;
+
+  if (!Object.values(MiVIPErrorCode).includes(code)) {
+    code = MiVIPErrorCode.UNKNOWN;
+  }
+
   const message = nativeError?.message || 'Unknown error';
 
   const error = new Error(message) as MiVIPError;

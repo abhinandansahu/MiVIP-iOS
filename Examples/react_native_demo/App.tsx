@@ -16,7 +16,7 @@ import {
   Image,
 } from 'react-native';
 import { Theme } from './src/Theme';
-import { scanQRCode, startRequest } from 'react-native-mivip';
+import { scanQRCode, startRequest } from '@mitek/react-native-mivip';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "react-native-mivip"
-  s.version      = "1.0.0"
+  s.version      = "3.6.15"
   s.summary      = "MiVIP React Native Bridge"
   s.homepage     = "https://github.com/Mitek-Systems/MiVIP-iOS"
   s.license      = "MIT"

@@ -33,10 +33,10 @@ class MiVIPModule: NSObject, RequestStatusDelegate {
         let bundleId = Bundle.main.bundleIdentifier ?? "unknown"
         print("MiVIPModule: Current Bundle ID: \(bundleId)")
         
-        // BASIC SOLUTION: 
-        // 1. You can hardcode the license key in Info.plist under MISNAP_LICENSE_KEY (easiest).
-        // 2. OR you can set it programmatically here:
-        // MiSnapLicenseManager.shared.setLicenseKey("YOUR_LICENSE_KEY_HERE")
+        // Explicitly set license key from Info.plist (fixes Issue #5: License verification)
+        if let licenseKey = Bundle.main.object(forInfoDictionaryKey: "MISNAP_LICENSE_KEY") as? String {
+            MiSnapLicenseManager.shared.setLicenseKey(licenseKey)
+        }
         
         do {
             self.mivipHub = try MiVIPHub()

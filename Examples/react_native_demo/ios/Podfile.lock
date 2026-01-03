@@ -1269,7 +1269,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-mivip (1.0.0):
+  - react-native-mivip (3.6.15):
     - MiVIP (= 3.6.15)
     - React-Core
   - React-nativeconfig (0.76.0)
@@ -1581,7 +1581,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-mivip (from `../node_modules/react-native-mivip`)
+  - "react-native-mivip (from `../node_modules/@mitek/react-native-mivip`)"
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1699,7 +1699,7 @@ EXTERNAL SOURCES:
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-mivip:
-    :path: "../node_modules/react-native-mivip"
+    :path: "../node_modules/@mitek/react-native-mivip"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -1804,7 +1804,7 @@ SPEC CHECKSUMS:
   React-logger: 2b39f3941d8c3aea5ebdefe3389c793406abcc27
   React-Mapbuffer: b288fcce9c939b37940cff7a8fbdce0bc23b5cfa
   React-microtasksnativemodule: cf1584fdc26003a6e7bf02b9d591e2d8353f7b75
-  react-native-mivip: 9306ebeb4c8ead74c44ee99de5b45241e80cc02a
+  react-native-mivip: 76906ce59e80b1640fa5b60594bfcf83f00edf5a
   React-nativeconfig: 72c10ff34863148ef90df9c9c8eacba99d2faaaa
   React-NativeModulesApple: 71fd2cce69bcd2c46673cf6afedb4935b47bf230
   React-perflogger: a31d0c57b4121ca087bf311ea4bd51e81760bcfb
