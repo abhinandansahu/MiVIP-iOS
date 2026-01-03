@@ -1,0 +1,31 @@
+# Source files (publish compiled lib/ only)
+src/
+__tests__/
+*.test.ts
+
+# Development configuration
+.github/
+.eslintrc.js
+tsconfig.json
+jest.config.js
+
+# Documentation files (except README)
+*.md
+!README.md
+
+# Build artifacts and logs
+*.log
+*.tgz
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Examples
+examples/

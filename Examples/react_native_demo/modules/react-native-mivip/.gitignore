@@ -1,0 +1,23 @@
+# Build outputs
+lib/
+node_modules/
+*.tgz
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sensitive configuration
+Config.xcconfig
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
