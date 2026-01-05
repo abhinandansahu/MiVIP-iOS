@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,7 +7,7 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   KeyboardAvoidingView,
   Platform,
   Alert,
@@ -16,58 +16,61 @@ import {
   Image,
 } from 'react-native';
 import { Theme } from './src/Theme';
-import { scanQRCode, startRequest } from '@mitek/react-native-mivip';
+import { useUUIDValidation } from './src/hooks';
+import { scanQRCode, startRequest, isMiVIPError } from '@mitek/react-native-mivip';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const colors = isDarkMode ? Theme.dark : Theme.light;
 
   const [requestId, setRequestId] = useState('');
-  const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const trimmedId = requestId.trim();
-    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    setIsValid(uuidRegex.test(trimmedId));
-  }, [requestId]);
+  const { trimmedValue, isValid } = useUUIDValidation(requestId);
 
   const handleScanQR = async () => {
     try {
       setLoading(true);
       const result = await scanQRCode();
       Alert.alert('Success', `Verification Result: ${result}`);
-    } catch (error: any) {
-      // Clean up error message
-      const msg = error.message.replace('E_SDK_ERROR: ', '');
-      Alert.alert('Error', msg);
+    } catch (error) {
+      if (isMiVIPError(error)) {
+        Alert.alert(
+          error.recoverable ? 'Please Try Again' : 'Error',
+          error.userMessage
+        );
+      } else {
+        Alert.alert('Error', 'An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handleManualEntry = async () => {
-    const trimmedId = requestId.trim();
-    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    
-    if (!uuidRegex.test(trimmedId)) {
+    if (!isValid) {
       Alert.alert('Validation Error', 'Please enter a valid Request ID (UUID format).');
       return;
     }
 
     try {
       setLoading(true);
-      const result = await startRequest(trimmedId);
+      const result = await startRequest(trimmedValue);
       Alert.alert('Success', `Verification Result: ${result}`);
-    } catch (error: any) {
-      const msg = error.message.replace('E_SDK_ERROR: ', '');
-      Alert.alert('Error', msg);
+    } catch (error) {
+      if (isMiVIPError(error)) {
+        Alert.alert(
+          error.recoverable ? 'Please Try Again' : 'Error',
+          error.userMessage
+        );
+      } else {
+        Alert.alert('Error', 'An unexpected error occurred');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const dynamicStyles = StyleSheet.create({
+  const dynamicStyles = useMemo(() => StyleSheet.create({
     container: {
       backgroundColor: colors.background,
     },
@@ -95,9 +98,9 @@ const App = () => {
       borderColor: colors.inputBorder,
     },
     logoText: {
-        color: isDarkMode ? colors.white : colors.mitekBlue,
+      color: isDarkMode ? colors.white : colors.mitekBlue,
     }
-  });
+  }), [isDarkMode, colors]);
 
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
@@ -129,13 +132,19 @@ const App = () => {
             <Text style={[styles.cardDescription, dynamicStyles.cardDescription]}>
               Scan the QR code from your email or verification portal.
             </Text>
-            <TouchableOpacity
-              style={styles.primaryButton}
+            <Pressable
+              style={({ pressed }) => [
+                styles.primaryButton,
+                pressed && styles.buttonPressed,
+                loading && styles.disabledButton,
+              ]}
               onPress={handleScanQR}
               disabled={loading}
+              accessibilityRole="button"
+              accessibilityLabel="Scan QR code to start verification"
             >
               <Text style={styles.buttonText}>Scan QR</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
 
           <Text style={[styles.divider, dynamicStyles.divider]}>— OR —</Text>
@@ -164,16 +173,19 @@ const App = () => {
               autoCapitalize="none"
               autoCorrect={false}
             />
-            <TouchableOpacity
-              style={[
+            <Pressable
+              style={({ pressed }) => [
                 styles.primaryButton,
-                !isValid && styles.disabledButton,
+                pressed && styles.buttonPressed,
+                (!isValid || loading) && styles.disabledButton,
               ]}
               onPress={handleManualEntry}
               disabled={!isValid || loading}
+              accessibilityRole="button"
+              accessibilityLabel="Submit request ID to start verification"
             >
               <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
 
           {loading && (
@@ -229,11 +241,11 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: Theme.spacing.m,
     marginBottom: Theme.spacing.m,
   },
   cardIcon: {
     fontSize: 24,
-    marginRight: Theme.spacing.m,
   },
   cardTitle: {
     fontSize: 20,
@@ -252,6 +264,10 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#CCCCCC',
+  },
+  buttonPressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.98 }],
   },
   buttonText: {
     color: '#FFFFFF',
